@@ -1,0 +1,16 @@
+centos1 ansible_ssh_host=root@192.168.0.45
+centos2 ansible_ssh_host=root@192.168.0.46
+centos3 ansible_ssh_host=root@192.168.0.47
+ubuntu1 ansible_ssh_host=packt@192.168.0.42
+ubuntu2 ansible_ssh_host=packt@192.168.0.43
+ubuntu3 ansible_ssh_host=packt@192.168.0.41
+
+[centos]
+centos1
+centos2
+centos3
+
+[ubuntu]
+ubuntu1
+ubuntu2
+ubuntu3
