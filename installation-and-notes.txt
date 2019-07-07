@@ -1,0 +1,19 @@
+## Mastering Ansible
+# Servers & logins - all passwords = "password"
+                                                IP:
+1. dnsmasq  - packt # then use "sudo bash"      192.168.0.40
+2. ubuntu-c - packt # then use "sudo bash"      192.168.0.41
+3. ubuntu1  - packt # then use "sudo bash"      192.168.0.42
+4. ubuntu2  - packt # then use "sudo bash"      192.168.0.43  
+5. centso1  - root                              192.168.0.45
+6. centso2  - root                              192.168.0.46
+7. centso3  - root                              192.168.0.47
+8. Mint     - robq                              192.168.0.48
+
+# Install ansible on Linux Mint
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt update
+sudo apt install ansible
+# other installations can be viewed at : 
+https://github.com/Quackers71/ps-h-o-ansible/blob/master/Installation.txt
+
