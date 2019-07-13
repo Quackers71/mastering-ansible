@@ -28,3 +28,30 @@ ansible ubuntu --list-hosts
 ansible all --list-hosts
 ansible ~.*3 --list-hosts
 
+# Changing centos1 port to 2222
+ssh root@192.168.0.45
+vim /etc/ssh/sshd_config
+# change to 
+Port 2222
+# now run
+-bash-4.2# semanage port -a -t ssh_port_t -p tcp 2222
+-bash: semanage: command not found
+-bash-4.2# yum install policycoreutils-python -y
+
+-bash-4.2# semanage port -a -t ssh_port_t -p tcp 2222
+ValueError: Port tcp/2222 already defined
+
+-bash-4.2# firewall-cmd --permanent --add-port=2222/tcp
+success
+-bash-4.2# firewall-cmd --reload
+success
+
+-bash-4.2# service sshd restart
+Redirecting to /bin/systemctl restart sshd.service
+
+-bash-4.2# ssh 0 -p 2222
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '[0]:2222,[0.0.0.0]:2222' (ECDSA) to the list of known hosts.
+root@0's password: 
+Last login: Sun Jul 14 21:17:31 2019
+
