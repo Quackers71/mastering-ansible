@@ -4,13 +4,28 @@ centos3 ansible_ssh_host=packt@192.168.0.47
 ubuntu1 ansible_ssh_host=packt@192.168.0.42
 ubuntu2 ansible_ssh_host=packt@192.168.0.43
 ubuntu3 ansible_ssh_host=packt@192.168.0.41
+mint ansible_ssh_host=robq@192.168.0.48
+
+[control]
+mint ansible_connection=local
 
 [centos]
-centos1
-centos2
-centos3
+centos1 ansible_port=2222
+centos[2:3]
+
+[centos:vars]
+ansible_user=packt
 
 [ubuntu]
-ubuntu1
-ubuntu2
-ubuntu3
+ubuntu[1:3]
+
+[ubuntu:vars]
+ansible_become=true
+ansible_become_pass=password
+
+[linux:children]
+centos
+ubuntu
+
+# [linux:vars]
+# ansible_port=1234
