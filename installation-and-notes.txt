@@ -148,3 +148,74 @@ ansible centos1 -m file -a 'path=/tmp/test_modules.txt state=touch mode=600'
 ansible centos1 -m fetch -a 'src=/tmp/test_modules.txt dest=/tmp/test_modules.txt'
 robq@robq-VirtualBox:~/mastering-ansible/ansible$ ls -lart /tmp/test_modules.txt/centos1/tmp/test_modules.txt 
 -rw------- 1 robq robq 0 Jul 14 01:33 /tmp/test_modules.txt/centos1/tmp/test_modules.txt
+
+## YAML
+
+Resources:
+http://yaml-online-parser.appspot.com
+http://yaml.org/spec/1.2/spec.html
+https://en.wikipedia.org/wiki/YAML
+https://stackoverflow.com/questions/3790454/in-yaml-how-do-i-break-a-string-over-multiple-lines
+
+
+Example #07:
+
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/07$ cat test.yml 
+# Every YAML file should start with three dashes
+---
+
+example_key_1: >-
+  this is a string
+  that goes over
+  multiple lines
+ 
+# Every YAML file should end with three dots
+...
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/07$ ./show_yaml_python.py 
+{'example_key_1': 'this is a string that goes over multiple lines'}
+
+
+Example #22:
+
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/22$ cat test.yml 
+---
+# Every YAML file should start with three dashes
+
+- Aston Martin:
+    year_founded: 1913
+    website: astonmartin.com
+    founded_by:
+      - Lionel Martin
+      - Robert Bamford
+- Fiat:
+    year_founded: 1899
+    website: fiat.com
+    founded_by: 
+      - Giovanni Agnelli
+- Ford:
+    year_founded: 1903
+    website: ford.com
+    founded_by:
+      - Henry Ford  
+- Vauxhall:
+    year_founded: 1857
+    website: vauxhall.co.uk
+    founded_by:
+      - Alexander Wilson 
+
+# Every YAML file should end with three dots
+...
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/22$ ./show_yaml_python.py 
+[{'Aston Martin': {'founded_by': ['Lionel Martin', 'Robert Bamford'],
+                   'website': 'astonmartin.com',
+                   'year_founded': 1913}},
+ {'Fiat': {'founded_by': ['Giovanni Agnelli'],
+           'website': 'fiat.com',
+           'year_founded': 1899}},
+ {'Ford': {'founded_by': ['Henry Ford'],
+           'website': 'ford.com',
+           'year_founded': 1903}},
+ {'Vauxhall': {'founded_by': ['Alexander Wilson'],
+               'website': 'vauxhall.co.uk',
+               'year_founded': 1857}}]
+
