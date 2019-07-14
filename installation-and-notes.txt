@@ -55,3 +55,96 @@ Warning: Permanently added '[0]:2222,[0.0.0.0]:2222' (ECDSA) to the list of know
 root@0's password: 
 Last login: Sun Jul 14 21:17:31 2019
 
+## Ansible Modules
+
+date
+# The 'file' Module
+ansible all -m file -a 'path=/tmp/test state=touch'
+# Yellow Output = Success but shows 'CHANGED'
+ls -altrh /tmp/test
+ansible all -m file -a 'path=/tmp/test state=touch'
+# Yellow Output
+ls -altrh /tmp/test
+ansible all -m file -a 'path=/tmp/test state=file mode=600'
+# Yellow Output
+ansible all -m file -a 'path=/tmp/test state=file mode=600'
+# Green Output = Success (no change)
+
+
+# Idempotency - An operation is Idempotent
+# if the result of performing it once is 
+# exactly the same as the result of performing
+# it repeatedly without any intervening actions.
+
+
+# The 'copy' Module
+touch /tmp/x
+ansible all -m copy -a 'src=/tmp/x dest=/tmp/x'
+ansible all -m copy -a 'remote_src=yes src=/tmp/x dest=/tmp/y'
+
+
+# The 'command' Module
+robq@robq-VirtualBox:~/mastering-ansible/ansible$ ansible all -m command -a 'hostname' -o
+mint | CHANGED | rc=0 | (stdout) robq-VirtualBox
+ubuntu1 | CHANGED | rc=0 | (stdout) ubuntu1
+centos1 | CHANGED | rc=0 | (stdout) centos1
+centos3 | CHANGED | rc=0 | (stdout) centos3
+centos2 | CHANGED | rc=0 | (stdout) centos2
+ubuntu2 | CHANGED | rc=0 | (stdout) ubuntu2
+ubuntu3 | CHANGED | rc=0 | (stdout) ubuntu-c
+
+
+# Argument 'id'
+robq@robq-VirtualBox:~/mastering-ansible/ansible$ ansible all -a 'id'
+ [WARNING]: Platform linux on host mint is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python interpreter could change this. See
+https://docs.ansible.com/ansible/2.8/reference_appendices/interpreter_discovery.html for more information.
+
+mint | CHANGED | rc=0 >>
+uid=1000(robq) gid=1000(robq) groups=1000(robq),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),112(lpadmin),128(sambashare)
+
+ubuntu1 | CHANGED | rc=0 >>
+uid=0(root) gid=0(root) groups=0(root)
+
+centos1 | CHANGED | rc=0 >>
+uid=1000(packt) gid=1000(packt) groups=1000(packt),10(wheel) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+centos2 | CHANGED | rc=0 >>
+uid=1000(packt) gid=1000(packt) groups=1000(packt),10(wheel) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+centos3 | CHANGED | rc=0 >>
+uid=1000(packt) gid=1000(packt) groups=1000(packt),10(wheel) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+ubuntu2 | CHANGED | rc=0 >>
+uid=0(root) gid=0(root) groups=0(root)
+
+ubuntu3 | CHANGED | rc=0 >>
+uid=0(root) gid=0(root) groups=0(root)
+
+
+# The 'creates' Module
+ansible all -a 'touch /tmp/test_copy_module creates=/tmp/test_copy_module'
+centos1 | CHANGED | rc=0 >>
+
+ansible all -a 'touch /tmp/test_copy_module creates=/tmp/test_copy_module'
+mint | SUCCESS | rc=0 >>
+skipped, since /tmp/test_copy_module exists
+
+
+# The 'removes' Module
+ansible all -a 'rm /tmp/test_copy_module removes=/tmp/test_copy_module'
+mint | CHANGED | rc=0 >>
+
+ansible all -a 'rm /tmp/test_copy_module removes=/tmp/test_copy_module'
+mint | SUCCESS | rc=0 >>
+skipped, since /tmp/test_copy_module does not exist
+
+
+#Argument state=absent
+ansible all -m file -a 'path=/tmp/test_copy_module state=absent'
+
+
+# Create a file on Centos1 and then copy it locally
+ansible centos1 -m file -a 'path=/tmp/test_modules.txt state=touch mode=600'
+ansible centos1 -m fetch -a 'src=/tmp/test_modules.txt dest=/tmp/test_modules.txt'
+robq@robq-VirtualBox:~/mastering-ansible/ansible$ ls -lart /tmp/test_modules.txt/centos1/tmp/test_modules.txt 
+-rw------- 1 robq robq 0 Jul 14 01:33 /tmp/test_modules.txt/centos1/tmp/test_modules.txt
