@@ -247,3 +247,73 @@ centos3                    : ok=2    changed=0    unreachable=0    failed=0    s
 real	0m8.445s
 user	0m3.163s
 sys	0m0.915s
+
+# Further ansible-playbook commands
+
+ansible-playbook motd_playbook.yml -K -e 'motd="Testing the motd playbook\n"'
+
+ansible-playbook motd_playbook.yml -K -e 'motd_centos="Testing the motd playbook\n"'
+
+ansible-playbook motd_playbook.yml -K -e 'motd_ubuntu="Testing the motd playbook\n"'
+
+# e.g.
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-04-02$ ansible-playbook motd_playbook.yml -K -e 'motd_ubuntu="Testing the motd playbook\n"'
+BECOME password: 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu1]
+ok: [ubuntu2]
+ok: [centos3]
+ok: [centos2]
+ok: [centos1]
+ok: [ubuntu3]
+
+TASK [Configure a MOTD (message of the day)] ****************************************************************************************************************************************************
+skipping: [ubuntu1]
+skipping: [ubuntu2]
+skipping: [ubuntu3]
+changed: [centos2]
+changed: [centos1]
+changed: [centos3]
+
+TASK [Configure a MOTD (message of the day)] ****************************************************************************************************************************************************
+skipping: [centos3]
+skipping: [centos2]
+skipping: [centos1]
+changed: [ubuntu1]
+changed: [ubuntu2]
+changed: [ubuntu3]
+
+RUNNING HANDLER [MOTD changed] ******************************************************************************************************************************************************************
+ok: [centos2] => {
+    "msg": "The MOTD was changed"
+}
+ok: [centos1] => {
+    "msg": "The MOTD was changed"
+}
+ok: [centos3] => {
+    "msg": "The MOTD was changed"
+}
+ok: [ubuntu1] => {
+    "msg": "The MOTD was changed"
+}
+ok: [ubuntu2] => {
+    "msg": "The MOTD was changed"
+}
+ok: [ubuntu3] => {
+    "msg": "The MOTD was changed"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos1                    : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+centos2                    : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+centos3                    : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ubuntu1                    : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ubuntu2                    : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ubuntu3                    : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-04-02$
+
