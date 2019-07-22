@@ -317,3 +317,5 @@ ubuntu3                    : ok=3    changed=1    unreachable=0    failed=0    s
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-04-02$
 
+## Ansible Playbooks, Variables
+
