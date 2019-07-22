@@ -21,8 +21,13 @@
       copy:
         content: "{{ motd }}"
         dest: /etc/motd
+      notify: MOTD changed
 
   # Handlers: handlers that are executed as a notify key from a task
+  handlers:
+    - name: MOTD changed
+      debug:
+        msg: The MOTD was changed
 
   # Roles: list of roles to be imported into the play
 
