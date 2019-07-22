@@ -222,3 +222,28 @@ robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03
 
 ## Ansible Playbooks, Breakdown on Sections
 
+# Frickme!
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-04-02$ time ansible-playbook motd_playbook.yml -K
+BECOME password: 
+
+PLAY [centos] ****************************************************************************************************
+
+TASK [Gathering Facts] *******************************************************************************************
+ok: [centos2]
+ok: [centos1]
+ok: [centos3]
+
+TASK [Configure a MOTD (message of the day)] *********************************************************************
+ok: [centos2]
+ok: [centos3]
+ok: [centos1]
+
+PLAY RECAP *******************************************************************************************************
+centos1                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+centos3                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+real	0m8.445s
+user	0m3.163s
+sys	0m0.915s
