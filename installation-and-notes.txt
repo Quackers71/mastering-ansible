@@ -55,6 +55,13 @@ Warning: Permanently added '[0]:2222,[0.0.0.0]:2222' (ECDSA) to the list of know
 root@0's password: 
 Last login: Sun Jul 14 21:17:31 2019
 
+## Ansible Inventories
+
+https://docs.ansible.com/ansible/2.3/intro_inventory.html
+
+https://docs.ansible.com/ansible/latest/user_guide/vault.html
+
+
 ## Ansible Modules
 
 date
