@@ -326,3 +326,6 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-04-02$
 
 ## Ansible Playbooks, Variables
 
+# New files added i.e. variables_playbook#.yml
+ansible-playbook variables_playbook#.yml
+
