@@ -329,3 +329,7 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-04-02$
 # New files added i.e. variables_playbook#.yml
 ansible-playbook variables_playbook#.yml
 
+# Used for Example playbook16
+ansible-playbook variables_playbook16.yml -e 'extra_vars_key="extra vars value"'
+# & json format
+ansible-playbook variables_playbook16.yml -e '{"extra_vars_key": "extra vars value in json"}'
