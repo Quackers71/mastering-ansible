@@ -1,3 +1,5 @@
 ---
 ansible_user: root
+ansible_become: true
+ansible_become_pass: password
 ...
