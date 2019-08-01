@@ -331,5 +331,16 @@ ansible-playbook variables_playbook#.yml
 
 # Used for Example playbook16
 ansible-playbook variables_playbook16.yml -e 'extra_vars_key="extra vars value"'
+ok: [centos1] => {
+    "msg": "extra vars value"
+
 # & json format
 ansible-playbook variables_playbook16.yml -e '{"extra_vars_key": "extra vars value in json"}'
+ok: [centos1] => {
+    "msg": "extra vars value in json"
+
+# yaml format
+ansible-playbook variables_playbook16.yml -e '{extra_vars_key: extra vars value in yaml}'
+ok: [centos1] => {
+    "msg": "extra vars value in yaml"
+
