@@ -354,3 +354,30 @@ ansible-playbook variables_playbook17.yml -e @extra_vars_file.json
 ok: [centos1] => {
     "msg": "extra vars value"
 }
+
+# Ansible Playbooks, Facts
+
+- Facts
+- The setup module and how this relates to fact gathering
+- Filtering for specific facts
+- The creation of custom facts
+- The execution of custom facts
+- How custom facts can be used in environments without super user access
+
+# facts_playbook1.yml
+ansible centos1 -m setup -a'gather_subset=network'
+ansible centos1 -m setup -a'gather_subset=network' | wc -l
+
+ansible centos1 -m setup -a'gather_subset=network,!all,!min' | wc -l
+
+ansible centos1 -m setup -a'filter=ansible_memfree_mb'
+centos1 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_memfree_mb": 136, 
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false
+}
+
+ansible centos1 -m setup -a'filter=ansible_mem*'
+
