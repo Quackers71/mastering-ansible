@@ -463,3 +463,15 @@ ansible-playbook facts_playbook4 -l mint
 
 # Copying the getdates.facts to the Linux Group
 ansible-playbook facts_playbook5.yml
+
+# Remove getdate#.fact from all the hosts :
+ansible all -m file -a 'path=/etc/ansible/facts.d/getdate1.fact state=absent' -o
+ansible all -m file -a 'path=/etc/ansible/facts.d/getdate2.fact state=absent' -o
+
+sudo rm -rf /etc/ansible-facts.d/*
+
+# Run the last playbook to copy the getdate scripts using /home/packt user
+ansible-playbook facts_playbook6.yml
+
+# Again cleanup the scripts from all linux hosts
+$ ansible linux -m file -a 'path=/home/packt/ansible/facts.d state=absent'
