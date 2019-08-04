@@ -430,3 +430,30 @@ mint | SUCCESS => {
     "changed": false
 }
 
+# Running the facts_playbook3 & 4 just on mint (The Ansible Controller)
+ansible-playbook facts_playbook3 -l mint
+
+PLAY [all] ************************************************************
+
+TASK [Gathering Facts] ************************************************
+ok: [mint]
+
+TASK [Show IP Address] ************************************************
+ok: [mint] => {
+    "msg": "192.168.0.48"
+}
+
+TASK [Show Custom Fact 1] *********************************************
+ok: [mint] => {
+    "msg": "Sun  4 Aug 22:17:01 BST 2019"
+}
+
+TASK [Show Custom Fact 2] *********************************************
+ok: [mint] => {
+    "msg": "Sun 4 Aug 22:17:01 BST 2019"
+}
+
+PLAY RECAP ************************************************************
+mint                       : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+ansible-playbook facts_playbook4 -l mint
