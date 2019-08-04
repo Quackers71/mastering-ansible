@@ -10,6 +10,9 @@
 7. centos3  - 192.168.0.47
 8. Mint     - 192.168.0.48
 
+# N.B. because you keep Hibernating the Host you may need to restart the NetworkManager Service using :
+sudo systemctl restart NetworkManager.service
+
 # Install ansible on Linux Mint
 sudo apt-add-repository ppa:ansible/ansible
 sudo apt update
