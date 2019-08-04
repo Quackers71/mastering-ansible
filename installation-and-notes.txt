@@ -366,6 +366,7 @@ ok: [centos1] => {
 
 # facts_playbook1.yml
 ansible centos1 -m setup -a'gather_subset=network'
+# Word Count using '| wc -l'
 ansible centos1 -m setup -a'gather_subset=network' | wc -l
 
 ansible centos1 -m setup -a'gather_subset=network,!all,!min' | wc -l
@@ -380,4 +381,52 @@ centos1 | SUCCESS => {
 }
 
 ansible centos1 -m setup -a'filter=ansible_mem*'
+
+# getdate1 & getdate2
+# both these files are within the /templates directory
+$ ./getdate1.fact 
+{"date" : "Sun  4 Aug 21:41:01 BST 2019"}
+$ ./getdate2.fact 
+[date]
+date=Sun 4 Aug 21:41:05 BST 2019
+
+sudo mkdir /etc/ansible/facts.d
+sudo cp * /etc/ansible/facts.d/
+ls -larth /etc/ansible/facts.d/
+/etc/ansible/facts.d/getdate1.fact 
+/etc/ansible/facts.d/getdate2.fact
+
+ansible mint -m setup | tee /tmp/x
+
+# Output in /etc/x using vim
+ansible_local": {
+            "getdate1": {
+                "date": "Sun  4 Aug 21:36:54 BST 2019"
+            },
+            "getdate2": {
+                "date": {
+                    "date": "Sun 4 Aug 21:36:54 BST 2019"
+                }
+            }
+        },
+
+# Use this for a better Output
+$ ansible mint -m setup -a 'filter=ansible_local'
+
+mint | SUCCESS => {
+    "ansible_facts": {
+        "ansible_local": {
+            "getdate1": {
+                "date": "Sun  4 Aug 21:44:15 BST 2019"
+            }, 
+            "getdate2": {
+                "date": {
+                    "date": "Sun 4 Aug 21:44:15 BST 2019"
+                }
+            }
+        }, 
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false
+}
 
