@@ -460,3 +460,6 @@ PLAY RECAP ************************************************************
 mint                       : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 ansible-playbook facts_playbook4 -l mint
+
+# Copying the getdates.facts to the Linux Group
+ansible-playbook facts_playbook5.yml
