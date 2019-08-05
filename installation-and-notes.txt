@@ -475,3 +475,12 @@ ansible-playbook facts_playbook6.yml
 
 # Again cleanup the scripts from all linux hosts
 $ ansible linux -m file -a 'path=/home/packt/ansible/facts.d state=absent'
+
+## Templating with Jinja2
+- The Jinja2 templating language
+- if/elif/else statements
+- for loops
+- break and continue
+- ranges
+- Jinja2 filters
+
