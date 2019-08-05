@@ -529,3 +529,111 @@ robq-VirtualBox            : ok=2    changed=0    unreachable=0    failed=0    s
 ubuntu1                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ubuntu3                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+$ ansible-playbook jinja2_playbook11.yml 
+$ cat /tmp/robq-VirtualBox_template.out 
+--== Ansible Jinja2 if statement ==--
+
+This is robq-VirtualBox
+
+--== Ansible Jinja2 if elif statement ==--
+
+This is robq-VirtualBox
+
+--== Ansible Jinja2 if elif else statement ==--
+
+This is robq-VirtualBox
+
+--== Ansible Jinja2 if variable is defined ( where variable is not defined ) ==--
+
+example_variable is not defined
+
+--== Ansible Jinja2 if varible is defined ( where variable is defined ) ==--
+
+example_variable is defined
+
+--== Ansible Jinja2 for statement ==--
+
+IP Address entry 1 = 10.0.4.15
+IP Address entry 2 = 192.168.1.41
+IP Address entry 3 = 192.168.0.48
+
+--== Ansible Jinja2 for range
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+--== Ansible Jinja2 for range, reversed (simulate while greater 5) ==--
+
+10
+9
+8
+7
+6
+
+--== Ansible Jinja2 for range, reversed (continue if odd) ==--
+
+10
+8
+6
+4
+2
+
+---=== Ansible Jinja2 filters ===---
+
+--== min [1, 2, 3, 4, 5] ==--
+
+1
+
+--== max [1, 2, 3, 4, 5] ==--
+
+5
+
+--== unique [1, 1, 2, 2, 3, 3, 4, 4, 5, 5] ==--
+
+[1, 2, 3, 4, 5]
+
+--== difference [1, 2, 3, 4, 5] vs [2, 3, 4, 5, 6] ==--
+
+[1, 5]
+
+--== random ['rod', 'jane', 'freddy'] ==--
+
+freddy
+
+--== urlsplit hostname ==--
+
+docs.ansible.com
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-07-01$ ssh packt@192.168.0.42
+packt@ubuntu1:~$ cat /tmp/ubuntu1_template.out
+--== Ansible Jinja2 if statement ==--
+
+
+--== Ansible Jinja2 if elif statement ==--
+
+
+--== Ansible Jinja2 if elif else statement ==--
+
+This is good old ubuntu1
+
+--== Ansible Jinja2 if variable is defined ( where variable is not defined ) ==--
+
+example_variable is not defined
+
+--== Ansible Jinja2 if varible is defined ( where variable is defined ) ==--
+
+example_variable is defined
+
+--== Ansible Jinja2 for statement ==--
+
+IP Address entry 1 = 192.168.1.16
+IP Address entry 2 = 192.168.0.42
