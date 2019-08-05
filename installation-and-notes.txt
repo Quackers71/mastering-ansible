@@ -484,3 +484,48 @@ $ ansible linux -m file -a 'path=/home/packt/ansible/facts.d state=absent'
 - ranges
 - Jinja2 filters
 
+# Jinja2_Playbook3
+$ ansible-playbook jinja2_playbook3.yml 
+
+PLAY [all] ********************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************
+ok: [ubuntu1]
+ok: [robq-VirtualBox]
+ok: [ubuntu2]
+ok: [ubuntu3]
+ok: [centos3]
+ok: [centos1]
+ok: [centos2]
+
+TASK [Ansible Jinja2 if elif else] ********************************************************************************
+ok: [robq-VirtualBox] => {
+    "msg": "--== Ansible Jinja2 if elif else statement ==--\nThis is robq-VirtualBox\n"
+}
+ok: [centos3] => {
+    "msg": "--== Ansible Jinja2 if elif else statement ==--\nThis is good old centos3\n"
+}
+ok: [centos2] => {
+    "msg": "--== Ansible Jinja2 if elif else statement ==--\nThis is good old centos2\n"
+}
+ok: [centos1] => {
+    "msg": "--== Ansible Jinja2 if elif else statement ==--\nThis is centos1 with it's modified SSH Port\n"
+}
+ok: [ubuntu1] => {
+    "msg": "--== Ansible Jinja2 if elif else statement ==--\nThis is good old ubuntu1\n"
+}
+ok: [ubuntu2] => {
+    "msg": "--== Ansible Jinja2 if elif else statement ==--\nThis is good old ubuntu2\n"
+}
+ok: [ubuntu3] => {
+    "msg": "--== Ansible Jinja2 if elif else statement ==--\nThis is good old ubuntu3\n"
+}
+
+PLAY RECAP ********************************************************************************************************
+centos1                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+centos3                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+robq-VirtualBox            : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu1                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu3                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
