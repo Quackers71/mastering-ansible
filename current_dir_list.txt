@@ -1,0 +1,103 @@
+.
+├── ansible
+│   ├── ansible.cfg
+│   ├── hosts
+│   ├── hosts.json
+│   ├── hosts.yml
+│   └── playbooks
+│       ├── 02-04-02
+│       │   ├── ansible.cfg
+│       │   ├── centos_motd
+│       │   ├── external_vars6.yml
+│       │   ├── hosts
+│       │   ├── hosts.yml
+│       │   ├── motd_playbook.yml
+│       │   ├── variable_playbooks_exc15+
+│       │   │   ├── ansible.cfg
+│       │   │   ├── extra_vars_file.json
+│       │   │   ├── extra_vars_file.yml
+│       │   │   ├── group_vars
+│       │   │   │   ├── centos
+│       │   │   │   └── ubuntu
+│       │   │   ├── hosts.yml
+│       │   │   ├── host_vars
+│       │   │   │   ├── centos1
+│       │   │   │   └── mint
+│       │   │   ├── variables_playbook15.yml
+│       │   │   ├── variables_playbook16.yml
+│       │   │   └── variables_playbook17.yml
+│       │   ├── variables_playbook10.yml
+│       │   ├── variables_playbook11.yml
+│       │   ├── variables_playbook12.yml
+│       │   ├── variables_playbook13.yml
+│       │   ├── variables_playbook14.yml
+│       │   ├── variables_playbook1.yml
+│       │   ├── variables_playbook2.yml
+│       │   ├── variables_playbook3.yml
+│       │   ├── variables_playbook4.yml
+│       │   ├── variables_playbook5.yml
+│       │   ├── variables_playbook6.yml
+│       │   ├── variables_playbook7.yml
+│       │   ├── variables_playbook8.yml
+│       │   └── variables_playbook9.yml
+│       ├── 02-06-01
+│       │   ├── ansible.cfg
+│       │   ├── facts.d
+│       │   │   ├── getdate1.fact
+│       │   │   └── getdate2.fact
+│       │   ├── facts_playbook1.yml
+│       │   ├── facts_playbook3.yml
+│       │   ├── facts_playbook4.yml
+│       │   ├── facts_playbook5.yml
+│       │   ├── facts_playbook6.yml
+│       │   ├── group_vars
+│       │   │   ├── centos
+│       │   │   └── ubuntu
+│       │   ├── hosts.yml
+│       │   ├── host_vars
+│       │   │   ├── centos1
+│       │   │   └── robq-VirtualBox
+│       │   └── templates
+│       │       ├── getdate1.fact
+│       │       └── getdate2.fact
+│       ├── 02-07-01
+│       │   ├── ansible.cfg
+│       │   ├── group_vars
+│       │   │   ├── centos
+│       │   │   └── ubuntu
+│       │   ├── hosts.yml
+│       │   ├── host_vars
+│       │   │   ├── centos1
+│       │   │   └── robq-VirtualBox
+│       │   ├── jinja2_playbook10.yml
+│       │   ├── jinja2_playbook11.yml
+│       │   ├── jinja2_playbook1.yml
+│       │   ├── jinja2_playbook2.yml
+│       │   ├── jinja2_playbook3.yml
+│       │   ├── jinja2_playbook4.yml
+│       │   ├── jinja2_playbook5.yml
+│       │   ├── jinja2_playbook6.yml
+│       │   ├── jinja2_playbook7.yml
+│       │   ├── jinja2_playbook8.yml
+│       │   ├── jinja2_playbook9.yml
+│       │   └── template.j2
+│       └── 02-08-01
+│           ├── ansible.cfg
+│           ├── files
+│           │   └── nginx-default.conf
+│           ├── group_vars
+│           │   ├── centos
+│           │   └── ubuntu
+│           ├── hosts.yml
+│           ├── host_vars
+│           │   ├── centos1
+│           │   └── robq-VirtualBox
+│           ├── nginx_playbook1.yml
+│           ├── nginx_playbook2.yml
+│           └── templates
+│               └── index.html
+├── current_dir_list.txt
+├── installation-and-notes.txt
+└── README.md
+
+19 directories, 81 files
