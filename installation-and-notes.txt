@@ -152,12 +152,16 @@ skipped, since /tmp/test_copy_module does not exist
 #Argument state=absent
 ansible all -m file -a 'path=/tmp/test_copy_module state=absent'
 
-
 # Create a file on Centos1 and then copy it locally
 ansible centos1 -m file -a 'path=/tmp/test_modules.txt state=touch mode=600'
 ansible centos1 -m fetch -a 'src=/tmp/test_modules.txt dest=/tmp/test_modules.txt'
 robq@robq-VirtualBox:~/mastering-ansible/ansible$ ls -lart /tmp/test_modules.txt/centos1/tmp/test_modules.txt 
 -rw------- 1 robq robq 0 Jul 14 01:33 /tmp/test_modules.txt/centos1/tmp/test_modules.txt
+
+# Using Ansible Doc
+ansible-doc find
+ansible-doc fetch 
+# etc...
 
 ## YAML
 
