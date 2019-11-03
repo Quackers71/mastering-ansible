@@ -189,6 +189,146 @@ robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03
 {'example_key_1': 'this is a string that goes over multiple lines'}
 
 
+
+## Further notes created on 03/11/2019
+## lists & dictionaries
+
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/02$ ./show_yaml_python.py 
+{'example_key_1': 'this is a string',
+ 'example_key_2': 'this is another string'}
+
+# Output 'Python' is treating the above as a dictionary given the curly brackets
+# The below shows how you can lookup a value by the key...
+
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/02$ python
+Python 2.7.15+ (default, Oct  7 2019, 17:39:04) 
+[GCC 7.4.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> myvar = {'example_key_1': 'this is a string', 'example_key_2': 'this is another string'}
+>>> print (myvar)
+{'example_key_2': 'this is another string', 'example_key_1': 'this is a string'}
+>>> print (myvar['example_key_1'])
+this is a string
+>>> print (myvar['example_key_2'])
+this is another string
+>>> 
+
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/07$ cat test.yml 
+# Every YAML file should start with three dashes
+---
+
+example_key_1: >-
+  this is a string
+  that goes over
+  multiple lines
+ 
+# Every YAML file should end with three dots
+...
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/07$ ./show_yaml_python.py 
+{'example_key_1': 'this is a string that goes over multiple lines'}
+
+# The > will format over the value over one line
+# The >- will strip the /n from the output of the value
+
+
+## lists
+
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/11$ cat test.yml 
+---
+# Every YAML file should start with three dashes
+
+- item 1
+- item 2
+- item 3
+- item 4
+- item 5
+
+# Every YAML file should end with three dots
+...
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/11$ ./show_yaml_python.py 
+['item 1', 'item 2', 'item 3', 'item 4', 'item 5']
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/11$ 
+
+# In Python
+Python 2.7.15+ (default, Oct  7 2019, 17:39:04) 
+[GCC 7.4.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> myvar = ['item 1', 'item 2', 'item 3', 'item 4', 'item 5']
+>>> print(myvar)
+['item 1', 'item 2', 'item 3', 'item 4', 'item 5']
+>>> print(myvar[0])
+item 1
+>>> print(type(myvar))
+<type 'list'>
+>>> 
+
+# dictionary of lists
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/17$ cat test.yml 
+---
+# Every YAML file should start with three dashes
+
+example_key_1:
+  - list item 1
+  - list item 2
+
+example_key_2:
+  - list item 3
+  - list item 4
+
+# Every YAML file should end with three dots
+...
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/17$ ./show_yaml_python.py 
+{'example_key_1': ['list item 1', 'list item 2'],
+ 'example_key_2': ['list item 3', 'list item 4']}
+
+# list of dictionaries
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/18$ cat test.yml 
+---
+# Every YAML file should start with three dashes
+
+- example_1: 
+  - item_1
+  - item_2
+  - item_3
+
+- example_2: 
+  - item_4
+  - item_5
+  - item_6
+
+# Every YAML file should end with three dots
+...
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/18$ ./show_yaml_python.py 
+[{'example_1': ['item_1', 'item_2', 'item_3']},
+ {'example_2': ['item_4', 'item_5', 'item_6']}]
+
+ # dictionary consisting of a list of dictionaries each one consisting of a list of items
+ robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/19$ cat test.yml 
+---
+# Every YAML file should start with three dashes
+
+example_dictionary_1:
+  - example_dictionary_2:
+    - 1
+    - 2
+    - 3
+  - example_dictionary_2:
+    - 4
+    - 5
+    - 6
+  - example_dictionary_4:
+    - 7
+    - 8
+    - 9
+
+# Every YAML file should end with three dots
+...
+robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/19$ ./show_yaml_python.py 
+{'example_dictionary_1': [{'example_dictionary_2': [1, 2, 3]},
+                          {'example_dictionary_2': [4, 5, 6]},
+                          {'example_dictionary_4': [7, 8, 9]}]}
+
+
 Example #22:
 
 robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/22$ cat test.yml 
@@ -232,6 +372,7 @@ robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03
  {'Vauxhall': {'founded_by': ['Alexander Wilson'],
                'website': 'vauxhall.co.uk',
                'year_founded': 1857}}]
+
 
 
 ## Ansible Playbooks, Breakdown on Sections
