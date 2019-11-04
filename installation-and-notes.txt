@@ -328,7 +328,6 @@ robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03
                           {'example_dictionary_2': [4, 5, 6]},
                           {'example_dictionary_4': [7, 8, 9]}]}
 
-
 Example #22:
 
 robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03 - YAML/22$ cat test.yml 
@@ -376,8 +375,9 @@ robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03
 
 
 ## Ansible Playbooks, Breakdown on Sections
+# Re-watched this section on 04/11/2019 :-)
 
-# Frickme!
+# Frickme!   ???
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-04-02$ time ansible-playbook motd_playbook.yml -K
 BECOME password: 
 
@@ -471,6 +471,8 @@ ubuntu2                    : ok=3    changed=1    unreachable=0    failed=0    s
 ubuntu3                    : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-04-02$
+
+
 
 ## Ansible Playbooks, Variables
 
