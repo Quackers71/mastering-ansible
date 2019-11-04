@@ -8,12 +8,12 @@
 5. centos1  - 192.168.0.45
 6. centos2  - 192.168.0.46
 7. centos3  - 192.168.0.47
-8. Mint     - 192.168.0.48
+8. robq-VirtualBox     - 192.168.0.48
 
 # N.B. because you keep Hibernating the Host you may need to restart the NetworkManager Service using :
 sudo systemctl restart NetworkManager.service
 
-# Install ansible on Linux Mint
+# Install ansible on Linux robq-VirtualBox
 sudo apt-add-repository ppa:ansible/ansible
 sudo apt update
 sudo apt install ansible
@@ -95,7 +95,7 @@ ansible all -m copy -a 'remote_src=yes src=/tmp/x dest=/tmp/y'
 
 # The 'command' Module
 robq@robq-VirtualBox:~/mastering-ansible/ansible$ ansible all -m command -a 'hostname' -o
-mint | CHANGED | rc=0 | (stdout) robq-VirtualBox
+robq-VirtualBox | CHANGED | rc=0 | (stdout) robq-VirtualBox
 ubuntu1 | CHANGED | rc=0 | (stdout) ubuntu1
 centos1 | CHANGED | rc=0 | (stdout) centos1
 centos3 | CHANGED | rc=0 | (stdout) centos3
@@ -106,10 +106,10 @@ ubuntu3 | CHANGED | rc=0 | (stdout) ubuntu-c
 
 # Argument 'id'
 robq@robq-VirtualBox:~/mastering-ansible/ansible$ ansible all -a 'id'
- [WARNING]: Platform linux on host mint is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python interpreter could change this. See
+ [WARNING]: Platform linux on host robq-VirtualBox is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python interpreter could change this. See
 https://docs.ansible.com/ansible/2.8/reference_appendices/interpreter_discovery.html for more information.
 
-mint | CHANGED | rc=0 >>
+robq-VirtualBox | CHANGED | rc=0 >>
 uid=1000(robq) gid=1000(robq) groups=1000(robq),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),112(lpadmin),128(sambashare)
 
 ubuntu1 | CHANGED | rc=0 >>
@@ -136,16 +136,16 @@ ansible all -a 'touch /tmp/test_copy_module creates=/tmp/test_copy_module'
 centos1 | CHANGED | rc=0 >>
 
 ansible all -a 'touch /tmp/test_copy_module creates=/tmp/test_copy_module'
-mint | SUCCESS | rc=0 >>
+robq-VirtualBox | SUCCESS | rc=0 >>
 skipped, since /tmp/test_copy_module exists
 
 
 # The 'removes' Module
 ansible all -a 'rm /tmp/test_copy_module removes=/tmp/test_copy_module'
-mint | CHANGED | rc=0 >>
+robq-VirtualBox | CHANGED | rc=0 >>
 
 ansible all -a 'rm /tmp/test_copy_module removes=/tmp/test_copy_module'
-mint | SUCCESS | rc=0 >>
+robq-VirtualBox | SUCCESS | rc=0 >>
 skipped, since /tmp/test_copy_module does not exist
 
 
@@ -510,6 +510,7 @@ ok: [centos1] => {
 
 
 # Ansible Playbooks, Facts
+# Re-watched this section on 04/11/2019
 
 - Facts
 - The setup module and how this relates to fact gathering
@@ -525,7 +526,7 @@ ansible centos1 -m setup -a'gather_subset=network' | wc -l
 
 ansible centos1 -m setup -a'gather_subset=network,!all,!min' | wc -l
 
-ansible centos1 -m setup -a'filter=ansible_memfree_mb'
+ansible centos1 -m setup -a 'filter=ansible_memfree_mb'
 centos1 | SUCCESS => {
     "ansible_facts": {
         "ansible_memfree_mb": 136, 
@@ -534,15 +535,20 @@ centos1 | SUCCESS => {
     "changed": false
 }
 
+# Using the wildcard *
 ansible centos1 -m setup -a'filter=ansible_mem*'
+
 
 # getdate1 & getdate2
 # both these files are within the /templates directory
-$ ./getdate1.fact 
+# 1. Json format
+$ ./getdate1.fact   
 {"date" : "Sun  4 Aug 21:41:01 BST 2019"}
+# 2. Ini format
 $ ./getdate2.fact 
 [date]
 date=Sun 4 Aug 21:41:05 BST 2019
+
 
 sudo mkdir /etc/ansible/facts.d
 sudo cp * /etc/ansible/facts.d/
@@ -550,7 +556,7 @@ ls -larth /etc/ansible/facts.d/
 /etc/ansible/facts.d/getdate1.fact 
 /etc/ansible/facts.d/getdate2.fact
 
-ansible mint -m setup | tee /tmp/x
+ansible robq-VirtualBox -m setup | tee /tmp/x
 
 # Output in /etc/x using vim
 ansible_local": {
@@ -564,10 +570,11 @@ ansible_local": {
             }
         },
 
-# Use this for a better Output
-$ ansible mint -m setup -a 'filter=ansible_local'
 
-mint | SUCCESS => {
+# Use this for a better Output
+$ ansible robq-VirtualBox -m setup -a 'filter=ansible_local'
+
+robq-VirtualBox | SUCCESS => {
     "ansible_facts": {
         "ansible_local": {
             "getdate1": {
@@ -584,33 +591,33 @@ mint | SUCCESS => {
     "changed": false
 }
 
-# Running the facts_playbook3 & 4 just on mint (The Ansible Controller)
-ansible-playbook facts_playbook3 -l mint
+# Running the facts_playbook3 & 4 just on robq-VirtualBox (The Ansible Controller)
+ansible-playbook facts_playbook3.yml -l robq-VirtualBox
 
 PLAY [all] ************************************************************
 
 TASK [Gathering Facts] ************************************************
-ok: [mint]
+ok: [robq-VirtualBox]
 
 TASK [Show IP Address] ************************************************
-ok: [mint] => {
+ok: [robq-VirtualBox] => {
     "msg": "192.168.0.48"
 }
 
 TASK [Show Custom Fact 1] *********************************************
-ok: [mint] => {
+ok: [robq-VirtualBox] => {
     "msg": "Sun  4 Aug 22:17:01 BST 2019"
 }
 
 TASK [Show Custom Fact 2] *********************************************
-ok: [mint] => {
+ok: [robq-VirtualBox] => {
     "msg": "Sun 4 Aug 22:17:01 BST 2019"
 }
 
 PLAY RECAP ************************************************************
-mint                       : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+robq-VirtualBox                       : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-ansible-playbook facts_playbook4 -l mint
+ansible-playbook facts_playbook4.yml -l robq-VirtualBox
 
 # Copying the getdates.facts to the Linux Group
 ansible-playbook facts_playbook5.yml
@@ -626,6 +633,8 @@ ansible-playbook facts_playbook6.yml
 
 # Again cleanup the scripts from all linux hosts
 $ ansible linux -m file -a 'path=/home/packt/ansible/facts.d state=absent'
+
+
 
 ## Templating with Jinja2
 - The Jinja2 templating language
