@@ -10,6 +10,7 @@
   gather_facts: false
  
   # Variable: variables that will apply to the play, on all target systems
+  # default private: true - so we have set to: false
   vars_prompt:
     - name: username
       private: false

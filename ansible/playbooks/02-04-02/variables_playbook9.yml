@@ -19,7 +19,7 @@
 
     - name: Test hostvars with an ansible fact and collect ansible_port, dict notation
       debug:
-        msg: "{{ hostvars[ansible_hostname]['ansible_port'] }}"
+        msg: "{{ hostvars[ansible_hostname]['ansible_port'] }}" 
  
 # Three dots indicate the end of a YAML document
 ...

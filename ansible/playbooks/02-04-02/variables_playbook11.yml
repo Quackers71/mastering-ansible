@@ -17,9 +17,10 @@
       debug:
         msg: "{{ hostvars[ansible_hostname].ansible_port | default('22') }}"
 
-    - name: Test hostvars with an ansible fact and collect ansible_port, dict notation, default if not found
+  # Removed port '22' from the | default debug msg (just for this Python output)
+    - name: Test hostvars with an ansible fact and don't collect ansible_port, dict notation, default if not found
       debug:
-        msg: "{{ hostvars[ansible_hostname]['ansible_port'] | default('22') }}"
+        msg: "{{ hostvars[ansible_hostname]['ansible_port'] | default('') }}"
  
 # Three dots indicate the end of a YAML document
 ...

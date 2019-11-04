@@ -475,6 +475,7 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-04-02$
 
 
 ## Ansible Playbooks, Variables
+# Re-watched this section and made some files changes on 04/11/2019
 
 # New files added i.e. variables_playbook#.yml
 ansible-playbook variables_playbook#.yml
@@ -489,10 +490,11 @@ ansible-playbook variables_playbook16.yml -e '{"extra_vars_key": "extra vars val
 ok: [centos1] => {
     "msg": "extra vars value in json"
 
-# yaml format
+# yaml format - USE THIS ONE!!!
 ansible-playbook variables_playbook16.yml -e '{extra_vars_key: extra vars value in yaml}'
 ok: [centos1] => {
     "msg": "extra vars value in yaml"
+
 
 # playbook17
 ansible-playbook variables_playbook17.yml -e @extra_vars_file.yml
@@ -504,6 +506,8 @@ ansible-playbook variables_playbook17.yml -e @extra_vars_file.json
 ok: [centos1] => {
     "msg": "extra vars value"
 }
+
+
 
 # Ansible Playbooks, Facts
 
