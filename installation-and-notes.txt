@@ -797,3 +797,43 @@ example_variable is defined
 
 IP Address entry 1 = 192.168.1.16
 IP Address entry 2 = 192.168.0.42
+
+
+## Ansible Playbooks, Creating and Executing
+
+# nginx_playbook3.yml output
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-08-01$ ansible-playbook nginx_playbook3.yml 
+
+PLAY [centos] ********************************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************************
+ok: [centos2]
+ok: [centos1]
+ok: [centos3]
+
+TASK [Install EPEL] **************************************************************************************************
+ok: [centos2]
+ok: [centos1]
+ok: [centos3]
+
+TASK [Install Nginx] *************************************************************************************************
+ok: [centos3]
+ok: [centos2]
+ok: [centos1]
+
+TASK [Install Patch] *************************************************************************************************
+ok: [centos3]
+ok: [centos2]
+ok: [centos1]
+
+TASK [Patch nginx.conf to include sites-available, disable default server entry] *************************************
+ok: [centos2]
+changed: [centos3]
+changed: [centos1]
+
+PLAY RECAP ***********************************************************************************************************
+centos1                    : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+centos2                    : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+centos3                    : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
