@@ -801,6 +801,14 @@ IP Address entry 2 = 192.168.0.42
 
 ## Ansible Playbooks, Creating and Executing
 
+- A use case example of using Ansible Playbooks
+- Installing Nginx Web Server on CentOS & Ubuntu
+- Using Ansible o standardize the configuration across both platforms
+- Using Ansible to fix any issues that arise owing to differences in the different operating systems
+- Templating a website
+- Using Ansible facts to customize our template page
+
+
 # nginx_playbook3.yml output
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-08-01$ ansible-playbook nginx_playbook3.yml 
@@ -836,4 +844,55 @@ PLAY RECAP *********************************************************************
 centos1                    : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 centos2                    : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 centos3                    : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+# nginx_playbook10.yml output
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-08-01$ ansible-playbook nginx_playbook10.yml
+
+PLAY [centos3] **********************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [centos3]
+
+TASK [Install EPEL] *****************************************************************************************************************************************************************************
+ok: [centos3]
+
+TASK [Install Nginx] ****************************************************************************************************************************************************************************
+ok: [centos3]
+
+TASK [Install Patch] ****************************************************************************************************************************************************************************
+ok: [centos3]
+
+TASK [Patch nginx.conf to include sites-available, disable default server entry] ****************************************************************************************************************
+ok: [centos3]
+
+TASK [Create /etc/nginx/sites-available directory if required] **********************************************************************************************************************************
+ok: [centos3]
+
+TASK [Create /etc/nginx/sites-enabled directory if required] ************************************************************************************************************************************
+ok: [centos3]
+
+TASK [Copy default nginx configuration] *********************************************************************************************************************************************************
+ok: [centos3]
+
+TASK [Symbolic link /etc/nginx/sites-available/default to /etc/nginx/sites-enabled/default] *****************************************************************************************************
+ok: [centos3]
+
+TASK [Create nginx/html directory if required] **************************************************************************************************************************************************
+ok: [centos3]
+
+TASK [Template index.html.j2 to index.html on target] *******************************************************************************************************************************************
+changed: [centos3]
+
+TASK [Restart nginx] ****************************************************************************************************************************************************************************
+changed: [centos3]
+
+TASK [Open CentOS firewall for Nginx] ***********************************************************************************************************************************************************
+ok: [centos3]
+
+RUNNING HANDLER [Check HTTP Service] ************************************************************************************************************************************************************
+ok: [centos3]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos3                    : ok=14   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 
