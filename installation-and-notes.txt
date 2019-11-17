@@ -837,5 +837,3 @@ centos1                    : ok=5    changed=1    unreachable=0    failed=0    s
 centos2                    : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 centos3                    : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-# Testing push
-
