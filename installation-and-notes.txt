@@ -896,3 +896,30 @@ ok: [centos3]
 PLAY RECAP **************************************************************************************************************************************************************************************
 centos3                    : ok=14   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 
+
+## Section 3 - Ansible Playbooks, Advanced Topics
+
+- Ansible Playbook modules
+- Dynamic inventories
+- register and when
+- Looping
+- Asynchronous and Parellel
+- Task delegation
+- Magic variables
+- Blocks
+- Using the Ansible Vault
+- Creating custom modules
+- Creating plugins
+
+# Ansible playbook modules
+
+- Ansible playbook modules
+- set_fact
+- pause
+- prompt
+- wait_for
+- assemble
+- add_host
+- group_by
+- fetch
+
