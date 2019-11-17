@@ -23,5 +23,18 @@
         name: nginx
         state: latest
 
+    - name: Install Patch
+      yum:
+        name: patch
+        update_cache: yes
+        state: latest
+      when: ansible_distribution == 'CentOS'
+
+    - name: Patch nginx.conf to include sites-available, disable default server entry
+      patch:
+        src: files/nginx.conf.centos.patch
+        dest: /etc/nginx/nginx.conf
+      when: ansible_distribution == 'CentOS'
+
 # Three dots indicate the end of a YAML document
 ...
