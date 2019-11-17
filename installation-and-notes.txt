@@ -923,3 +923,50 @@ centos3                    : ok=14   changed=2    unreachable=0    failed=0    s
 - group_by
 - fetch
 
+* Ansible playbook modules
+# Prior to running wait_for_playbook.yml
+# Stop the nginx service on the centos2 vm
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-01-01$ ansible centos2 -m service -a 'name=nginx state=stopped'
+centos2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false, 
+    "name": "nginx", 
+    "state": "stopped", 
+    "status": {
+        "ActiveEnterTimestampMonotonic": "0", 
+        "ActiveExitTimestampMonotonic": "0", 
+        "ActiveState": "inactive", 
+
+# run the playbook
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-01-01$ ansible-playbook wait_for_playbook.yml &
+
+PLAY [centos3] **********************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [centos3]
+
+TASK [Wait for the webserver to be running on port 80] ******************************************************************************************************************************************
+ok: [centos3]
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-01-01$ ansible centos2 -m service -a 'name=nginx state=started'
+centos2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false, 
+    "name": "nginx", 
+    "state": "started", 
+    "status": {
+        "ActiveEnterTimestamp": "Sun 2019-11-17 21:35:29 GMT", 
+        "ActiveEnterTimestampMonotonic": "25343698897", 
+        "ActiveExitTimestampMonotonic": "0", 
+        "ActiveState": "active",
+
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos3                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
