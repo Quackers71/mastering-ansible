@@ -6,7 +6,7 @@
 -
 
   # Target: where our play will run and options it will run with
-  hosts: centos3
+  hosts: centos
 
   # Task: the list of tasks that will be executed within the play, this section
   # can also be used for pre and post tasks
