@@ -808,6 +808,9 @@ IP Address entry 2 = 192.168.0.42
 - Templating a website
 - Using Ansible facts to customize our template page
 
+# Ansible link on Nginx differences between CentOS & Ubuntu
+https://stackoverflow.com/questions/17413526/nginx-missing-sites-available-directory
+
 ansible all -i packt@192.168.0.47,packt@192.168.0.43, -m setup -a 'filter=ansible_distribution'
 
 # nginx_playbook3.yml output
