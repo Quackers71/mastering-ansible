@@ -10,6 +10,8 @@
 7. centos3  - 192.168.0.47
 8. robq-VirtualBox     - 192.168.0.48
 
+Here's the link to the different VMs: https://drive.google.com/drive/u/1/folders/1QBgNs6knbwpSPyUMexDXhKjv3TO_Ka55
+
 # N.B. because you keep Hibernating the Host you may need to restart the NetworkManager Service using :
 sudo systemctl restart NetworkManager.service
 
