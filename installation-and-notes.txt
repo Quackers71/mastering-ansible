@@ -933,7 +933,7 @@ centos3                    : ok=14   changed=2    unreachable=0    failed=0    s
 # Prior to running wait_for_playbook.yml
 # Stop the nginx service on the centos2 vm
 
-robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-01-01$ ansible centos2 -m service -a 'name=nginx state=stopped'
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-01-01$ ansible centos -m service -a 'name=nginx state=stopped'
 centos2 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
@@ -948,7 +948,7 @@ centos2 | SUCCESS => {
 
 # run the playbook
 
-robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-01-01$ ansible-playbook wait_for_playbook.yml &
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-01-01$ ansible-playbook wait_for_playbook.yml &  # Press Enter to come out of this ansible-playbook execution
 
 PLAY [centos3] ******************************************************************************************************************
 
@@ -956,6 +956,8 @@ TASK [Gathering Facts] *********************************************************
 ok: [centos3]
 
 TASK [Wait for the webserver to be running on port 80] **************************************************************************
+
+# restart the Nginx service on the centos group 
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-01-01$ ansible centos2 -m service -a 'name=nginx state=started'
 centos2 | SUCCESS => {
@@ -992,3 +994,5 @@ centos3                    : ok=2    changed=0    unreachable=0    failed=0    s
 
 
 [1]+  Done                    ansible-playbook wait_for_playbook.yml
+# Completed
+
