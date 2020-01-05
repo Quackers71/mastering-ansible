@@ -54,20 +54,19 @@ class Inventory(object):
 
     def define_inventory(self):
         self.groups = {
-            "centos": {
-                "hosts": ["centos1", "centos2", "centos3"],
+            "centos2": {
+                "hosts": ["192.168.0.46"],
                 "vars": {
                     "ansible_user": 'root'
                 }
             },
             "control": {
-                "hosts": ["ubuntu-c"],
+                "hosts": ["robq-VirtualBox"],
             },
-            "ubuntu": {
-                "hosts": ["ubuntu1", "ubuntu2", "ubuntu3"],
+            "ubuntu2": {
+                "hosts": ["192.168.0.43"],
                 "vars": {
-                    "ansible_become": True,
-                    "ansible_become_pass": 'password'
+                    "ansible_user": 'packt'
                 }
             },
             "linux": {
@@ -78,7 +77,7 @@ class Inventory(object):
             'centos1': {
                 'ansible_port': 2222
             },
-            'ubuntu-c': {
+            'robq-VirtualBox': {
                 'ansible_connection': 'local'
             }
         }

@@ -1054,16 +1054,11 @@ alias a-b="ansible-playbook $1"
   --list
 - Returns a basic JSON encoded dictionary structure for --host <hostname>
 
-
-robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ./inventory.py 
-usage: inventory.py [-h] [--list] [--host HOST]
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ./inventory.py --list
 {
-    "centos": {
+    "centos2": {
         "hosts": [
-            "centos1", 
-            "centos2", 
-            "centos3"
+            "192.168.0.46"
         ], 
         "vars": {
             "ansible_user": "root"
@@ -1080,32 +1075,23 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ./inventory
             "ubuntu"
         ]
     }, 
-    "ubuntu": {
+    "ubuntu2": {
         "hosts": [
-            "ubuntu1", 
-            "ubuntu2", 
-            "ubuntu3"
+            "192.168.0.43"
         ], 
         "vars": {
-            "ansible_become": true, 
-            "ansible_become_pass": "password"
+            "ansible_user": "packt"
         }
     }
 }
-robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ./inventory.py --host centos1
-{
-    "ansible_port": 2222
-}
-robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ./inventory.py --host centos2
-{}
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ansible all -i inventory.py --list-hosts
-  hosts (7):
+  hosts (3):
     robq-VirtualBox
-    centos1
-    centos2
-    centos3
-    ubuntu1
-    ubuntu2
-    ubuntu3
-robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ 
+    192.168.0.43
+    192.168.0.46
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ansible all -i inventory.py -m ping -o
+robq-VirtualBox | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python"}, "changed": false, "ping": "pong", "warnings": ["Platform linux on host robq-VirtualBox is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python interpreter could change this. See https://docs.ansible.com/ansible/2.8/reference_appendices/interpreter_discovery.html for more information."]}
+192.168.0.43 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python"}, "changed": false, "deprecations": [{"msg": "Distribution Ubuntu 16.04 on host 192.168.0.43 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with prior Ansible releases. A future Ansible release will default to using the discovered platform python for this host. See https://docs.ansible.com/ansible/2.8/reference_appendices/interpreter_discovery.html for more information", "version": "2.12"}], "ping": "pong"}
+192.168.0.46 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python"}, "changed": false, "ping": "pong"}
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$
 
