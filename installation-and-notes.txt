@@ -1031,7 +1031,7 @@ alias gpul="git pull"
 alias grh="git reset --hard $1"
 alias gl="git log"
 
-alias ansgal="ansible-galaxy $1"
-alias anspb="ansible-playbook $1"
+alias a-g="ansible-galaxy $1"
+alias a-b="ansible-playbook $1"
 
 # More to follow.....
