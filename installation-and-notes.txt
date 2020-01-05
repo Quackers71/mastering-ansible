@@ -903,7 +903,7 @@ PLAY RECAP *********************************************************************
 centos3                    : ok=14   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 
 
-## Section 3 - Ansible Playbooks, Advanced Topics
+## Section 3 - 1. Ansible Playbooks, Advanced Topics
 
 - Ansible Playbook modules
 - Dynamic inventories
@@ -1035,3 +1035,77 @@ alias a-g="ansible-galaxy $1"
 alias a-b="ansible-playbook $1"
 
 # More to follow.....
+
+## Section 3 - 2. Dynamic Inventories
+
+- Dynamic inventories
+- The requirements of dynamic inventories
+- How to create a dynamic inventory with minimal scripting
+- How to interrogate a dynamic inventory
+- The use of the Ansible development tools for testing dynamic inventories
+- Performance enhancements through the use of _meta
+- The use of the Ansible Python framework for dynamic inventories
+
+ * Dynamic Inventory Requirements
+- Needs to be an executable file, can be written in any language, proving
+  that it can be executed from the command line.
+- Accepts the command line options of --list, and --host hostname.
+- Returns JSON encoded dictionary of inventory content when used with
+  --list
+- Returns a basic JSON encoded dictionary structure for --host <hostname>
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ./inventory.py 
+usage: inventory.py [-h] [--list] [--host HOST]
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ./inventory.py --list
+{
+    "centos": {
+        "hosts": [
+            "centos1", 
+            "centos2", 
+            "centos3"
+        ], 
+        "vars": {
+            "ansible_user": "root"
+        }
+    }, 
+    "control": {
+        "hosts": [
+            "robq-VirtualBox"
+        ]
+    }, 
+    "linux": {
+        "children": [
+            "centos", 
+            "ubuntu"
+        ]
+    }, 
+    "ubuntu": {
+        "hosts": [
+            "ubuntu1", 
+            "ubuntu2", 
+            "ubuntu3"
+        ], 
+        "vars": {
+            "ansible_become": true, 
+            "ansible_become_pass": "password"
+        }
+    }
+}
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ./inventory.py --host centos1
+{
+    "ansible_port": 2222
+}
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ./inventory.py --host centos2
+{}
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ansible all -i inventory.py --list-hosts
+  hosts (7):
+    robq-VirtualBox
+    centos1
+    centos2
+    centos3
+    ubuntu1
+    ubuntu2
+    ubuntu3
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ 
+
