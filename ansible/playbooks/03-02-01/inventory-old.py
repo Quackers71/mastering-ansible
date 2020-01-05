@@ -23,7 +23,7 @@ class Inventory(object):
     def __init__(self, include_hostvars_in_list):
 
         # Configure logger
-        self.configure_logger()
+        #self.configure_logger()
 
         # Capture and store include_hostvars_in_list
         self.include_hostvars_in_list = include_hostvars_in_list
@@ -90,7 +90,7 @@ class Inventory(object):
     # Return inventory dictionary
     def list(self):
 
-        self.logger.info('list executed')
+        #self.logger.info('list executed')
 
         # If include_hostvars_in_list is True, merge the hostvars
         # as _meta data
@@ -107,7 +107,7 @@ class Inventory(object):
     # Return host dictionary
     def host(self):
 
-        self.logger.info('host executed for {}'.format(self.args.host))
+        #self.logger.info('host executed for {}'.format(self.args.host))
 
         # If the requested hosts exists in hostvars, return it
         if self.args.host in self.hostvars:
