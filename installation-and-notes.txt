@@ -1029,6 +1029,7 @@ alias gcam="git commit -am $1"
 alias gdf="git diff $1"
 alias gp="git pull"
 alias grh="git reset --hard $1"
+alias gl="git log"
 
 alias ansgal="ansible-galaxy $1"
 alias anspb="ansible-playbook $1"
