@@ -1030,6 +1030,7 @@ alias gdf="git diff $1"
 alias gpul="git pull"
 alias grh="git reset --hard $1"
 alias gl="git log"
+alias glg='git log --pretty=format:"%h %s" --graph'
 
 alias a-g="ansible-galaxy $1"
 alias a-b="ansible-playbook $1"
