@@ -1033,7 +1033,8 @@ alias gl="git log"
 alias glg='git log --pretty=format:"%h %s" --graph'
 
 alias a-g="ansible-galaxy $1"
-alias a-b="ansible-playbook $1"
+alias a-p="ansible-playbook $1" < pls change this!!!
+alias a="ansible"
 
 # More to follow.....
 
