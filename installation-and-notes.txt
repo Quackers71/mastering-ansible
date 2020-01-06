@@ -1097,3 +1097,46 @@ robq-VirtualBox | SUCCESS => {"ansible_facts": {"discovered_interpreter_python":
 192.168.0.46 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python"}, "changed": false, "ping": "pong"}
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$
 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ansible all -i inventory.py --list-hosts
+  hosts (3):
+    robq-VirtualBox
+    192.168.0.43
+    192.168.0.46
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ ./inventory.py --host centos2
+{}
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ cat /var/tmp/ansible_dynamic_inventory.log 
+2020-01-06 22:06:51,613 INFO list executed
+2020-01-06 22:06:51,662 INFO host executed for 192.168.0.43
+2020-01-06 22:06:51,710 INFO host executed for robq-VirtualBox
+2020-01-06 22:06:51,755 INFO host executed for 192.168.0.46
+2020-01-06 22:07:10,293 INFO host executed for centos2
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ time ansible all -i inventory.py --list-hosts
+  hosts (3):
+    robq-VirtualBox
+    192.168.0.43
+    192.168.0.46
+
+real	0m1.106s
+user	0m0.699s
+sys	0m0.213s
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$
+
+# Running inventory3 with 1000 fake hosts
+
+ansible all -i inventory3.py --list-hosts
+tail -f /var/tmp/ansible_dynamic_inventory.log &
+ansible all -i inventory3.py --list-hosts
+jobs
+[1]+  Running                 tail -f /var/tmp/ansible_dynamic_inventory.log &
+kill %1
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ time ansible all -i inventory3.py --list-hosts
+real	0m56.548s
+user	0m42.681s
+sys	0m12.699s
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-02-01$ time ansible all -i inventory4.py --list-hosts
+real	0m0.954s
+user	0m0.803s
+sys	0m0.150s
+
