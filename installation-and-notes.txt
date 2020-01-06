@@ -1140,3 +1140,96 @@ real	0m0.954s
 user	0m0.803s
 sys	0m0.150s
 
+
+## Section 3 - 3. Register and When
+
+- register and when
+- How to register output with the register directive
+- How to use registered output
+- How to work around differences with registered output
+- Filters, that relate to registered content
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-03-01$ ansible all -a 'hostname -s' -o
+robq-VirtualBox | CHANGED | rc=0 | (stdout) robq-VirtualBox
+ubuntu2 | CHANGED | rc=0 | (stdout) ubuntu2
+centos2 | CHANGED | rc=0 | (stdout) centos2
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-03-01$ 
+
+# Run the below before running the register_playbook6.yml
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-03-01$ ansible linux -m setup -a filter='ansible_distribution*'
+ubuntu2 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_distribution": "Ubuntu", 
+        "ansible_distribution_file_parsed": true, 
+        "ansible_distribution_file_path": "/etc/os-release", 
+        "ansible_distribution_file_variety": "Debian", 
+        "ansible_distribution_major_version": "16", 
+        "ansible_distribution_release": "xenial", 
+        "ansible_distribution_version": "16.04", 
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false
+}
+centos2 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_distribution": "CentOS", 
+        "ansible_distribution_file_parsed": true, 
+        "ansible_distribution_file_path": "/etc/redhat-release", 
+        "ansible_distribution_file_variety": "RedHat", 
+        "ansible_distribution_major_version": "7", 
+        "ansible_distribution_release": "Core", 
+        "ansible_distribution_version": "7", 
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false
+}
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-03-01$ a-p register_when_playbook1.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Exploring register] ***********************************************************************************************************************************************************************
+skipping: [ubuntu2]
+changed: [centos2]
+
+TASK [Show register] ****************************************************************************************************************************************************************************
+ok: [centos2] => {
+    "command_register": {
+        "changed": true, 
+        "cmd": [
+            "hostname", 
+            "-s"
+        ], 
+        "delta": "0:00:00.004742", 
+        "end": "2019-12-24 16:19:17.566481", 
+        "failed": false, 
+        "rc": 0, 
+        "start": "2019-12-24 16:19:17.561739", 
+        "stderr": "", 
+        "stderr_lines": [], 
+        "stdout": "centos2", 
+        "stdout_lines": [
+            "centos2"
+        ]
+    }
+}
+ok: [ubuntu2] => {
+    "command_register": {
+        "changed": false, 
+        "skip_reason": "Conditional result was False", 
+        "skipped": true
+    }
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-03-01$ 
+
+
+
