@@ -1231,5 +1231,117 @@ ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    s
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-03-01$ 
 
+## Section 3 - 4. Looping
 
+- Looping
+- with_items
+- with_dict
+- with_subelements
+- with_together
+- with_sequence .... many other loops ... with_random_choice
+- until
+
+# userplaybook5.yml
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ a-p user_playbook5.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+^Lok: [ubuntu2]
+ok: [centos2]
+
+TASK [Creating user] ****************************************************************************************************************************************************************************
+changed: [ubuntu2] => (item=jimmy2b)
+changed: [centos2] => (item=jimmy2b)
+changed: [ubuntu2] => (item=harry)
+changed: [centos2] => (item=harry)
+changed: [ubuntu2] => (item=lilly)
+changed: [centos2] => (item=lilly)
+changed: [ubuntu2] => (item=tarquin)
+changed: [centos2] => (item=tarquin)
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ ssh packt@192.168.0.43 tail -5 /etc/passwd
+sshd:x:108:65534::/var/run/sshd:/usr/sbin/nologin
+jimmy2b:x:1001:1001::/home/jimmy2b:
+harry:x:1002:1002::/home/harry:
+lilly:x:1003:1003::/home/lilly:
+tarquin:x:1004:1004::/home/tarquin:
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ ssh packt@192.168.0.46 tail -5 /etc/passwd
+nginx:x:997:995:Nginx web server:/var/lib/nginx:/sbin/nologin
+jimmy2b:x:1001:1001::/home/jimmy2b:/bin/bash
+harry:x:1002:1002::/home/harry:/bin/bash
+lilly:x:1003:1003::/home/lilly:/bin/bash
+tarquin:x:1004:1004::/home/tarquin:/bin/bash
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ a-p user_playbook6.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Creating user] ****************************************************************************************************************************************************************************
+changed: [ubuntu2] => (item=jimmy2b)
+changed: [centos2] => (item=jimmy2b)
+changed: [ubuntu2] => (item=harry)
+changed: [centos2] => (item=harry)
+changed: [ubuntu2] => (item=lilly)
+changed: [centos2] => (item=lilly)
+changed: [ubuntu2] => (item=tarquin)
+changed: [centos2] => (item=tarquin)
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ ssh packt@192.168.0.46 tail -5 /etc/passwd
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+chrony:x:998:996::/var/lib/chrony:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+packt:x:1000:1000:packt:/home/packt:/bin/bash
+nginx:x:997:995:Nginx web server:/var/lib/nginx:/sbin/nologin
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ ssh packt@192.168.0.43 tail -5 /etc/passwd
+_apt:x:105:65534::/nonexistent:/bin/false
+messagebus:x:106:110::/var/run/dbus:/bin/false
+uuidd:x:107:111::/run/uuidd:/bin/false
+packt:x:1000:1000:packt,,,:/home/packt:/bin/bash
+sshd:x:108:65534::/var/run/sshd:/usr/sbin/nologin
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ 
+
+# userplaybook7.yml
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ a-p user_playbook7.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Creating user] ****************************************************************************************************************************************************************************
+changed: [ubuntu2] => (item={'value': {u'full_name': u'Lilly Besi'}, 'key': u'lilly'})
+changed: [centos2] => (item={'value': {u'full_name': u'Lilly Besi'}, 'key': u'lilly'})
+changed: [ubuntu2] => (item={'value': {u'full_name': u'Harry Besi'}, 'key': u'harry'})
+changed: [centos2] => (item={'value': {u'full_name': u'Harry Besi'}, 'key': u'harry'})
+changed: [ubuntu2] => (item={'value': {u'full_name': u'Jimmy 2 bananas'}, 'key': u'jimmy2b'})
+changed: [centos2] => (item={'value': {u'full_name': u'Jimmy 2 bananas'}, 'key': u'jimmy2b'})
+changed: [ubuntu2] => (item={'value': {u'full_name': u'Tarquin Farquhar'}, 'key': u'tarquin'})
+changed: [centos2] => (item={'value': {u'full_name': u'Tarquin Farquhar'}, 'key': u'tarquin'})
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ ssh packt@192.168.0.46 tail -5 /etc/passwd
+nginx:x:997:995:Nginx web server:/var/lib/nginx:/sbin/nologin
+lilly:x:1001:1001:Lilly Besi:/home/lilly:/bin/bash
+harry:x:1002:1002:Harry Besi:/home/harry:/bin/bash
+jimmy2b:x:1003:1003:Jimmy 2 bananas:/home/jimmy2b:/bin/bash
+tarquin:x:1004:1004:Tarquin Farquhar:/home/tarquin:/bin/bash
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$
 
