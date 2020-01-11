@@ -1345,3 +1345,227 @@ jimmy2b:x:1003:1003:Jimmy 2 bananas:/home/jimmy2b:/bin/bash
 tarquin:x:1004:1004:Tarquin Farquhar:/home/tarquin:/bin/bash
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$
 
+# Output from CentOS Box for playbook11 & playbook12
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ ssh packt@192.168.0.46 -l root tree /home/
+/home/
+├── alison
+│   ├── coffee
+│   ├── documents
+│   ├── movies
+│   └── photos
+├── anna
+│   ├── documents
+│   ├── japanese
+│   ├── movies
+│   └── photos
+├── harry
+│   ├── documents
+│   ├── movies
+│   ├── photos
+│   └── psychology
+├── jimmy2b
+│   ├── documents
+│   ├── movies
+│   ├── photos
+│   └── tech
+├── jimmy2bb
+├── lilly
+│   ├── dancing
+│   ├── documents
+│   ├── movies
+│   └── photos
+├── lilz
+├── packt
+│   └── ansible
+│       └── facts.d
+│           ├── getdate1.fact
+│           └── getdate2.fact
+├── sarah
+│   ├── documents
+│   ├── movies
+│   ├── music
+│   └── photos
+└── tarquin
+    ├── documents
+    ├── movies
+    ├── photos
+    └── smiling
+
+40 directories, 2 files
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ a-p user_playbook13.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Creating user] ****************************************************************************************************************************************************************************
+ok: [ubuntu2] => (item={'value': {u'full_name': u'Lilly R'}, 'key': u'lilly'})
+ok: [centos2] => (item={'value': {u'full_name': u'Lilly R'}, 'key': u'lilly'})
+
+TASK [Create authorized key] ********************************************************************************************************************************************************************
+changed: [ubuntu2] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDpHPZxDE8G0J5Z4Zg8+ZPqN9V024A25OAlud3yefHnZKXDvkvlsu2N1ODCm1Vw3MCfNCqxEimK4hYvayNffCcdqdL6KIRsRS8Z7LyHhplz/joH7YIXRc0K8IH2LymRon0bflv3WViOSUHUW9jRgIZmu7UTS4HHfe9gXfjwEbtIXmKkut7MHDenBsoe9iW40Y58pxlm/ZNI+KviW+espmMmydDKbpGCNt2g9S0JDJuU9euweshIm5YGtgYpFKuJdSjbw8sP0mb8Zi9G2Nre96Lw6k6I4k/pfTVLARTdFbO8K9yrBtbuNOT+BdjRhAF/yQ/w894Nt7WhdVWIWBjn8WVHyNSBxeuDWoOUzzP/Y+ygS/UNWSe41rzVOBf8cPWbIgGG4g5NZyh2K//9hRv3vyBl3RcrzgYYHhb/roKTzi1qhaEcxB7AFhDOgmb8WHrdDmje+A4FUOSeBeY3im+i8t9yJ8wXORXmq86ciWll7C2a37xjiqNVyvYVjq2P0FGLBah0w5QP/5nC5akuCSLgUuhtmKMuqhRm4vmcImRuQIPTSo8a5LMmxRrLTmvkLNy9NFcMTbjFHkawvkgzmrMvLJYWINFK7V2ChEuMIv5NuaALyJpaAfRf/b00uHgnfQBZCSGzF185/3m8mr/9MMxG2Rm7E+ftoqbr0a6ym9RnjchB1w== packt@gmail.com)
+changed: [centos2] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDpHPZxDE8G0J5Z4Zg8+ZPqN9V024A25OAlud3yefHnZKXDvkvlsu2N1ODCm1Vw3MCfNCqxEimK4hYvayNffCcdqdL6KIRsRS8Z7LyHhplz/joH7YIXRc0K8IH2LymRon0bflv3WViOSUHUW9jRgIZmu7UTS4HHfe9gXfjwEbtIXmKkut7MHDenBsoe9iW40Y58pxlm/ZNI+KviW+espmMmydDKbpGCNt2g9S0JDJuU9euweshIm5YGtgYpFKuJdSjbw8sP0mb8Zi9G2Nre96Lw6k6I4k/pfTVLARTdFbO8K9yrBtbuNOT+BdjRhAF/yQ/w894Nt7WhdVWIWBjn8WVHyNSBxeuDWoOUzzP/Y+ygS/UNWSe41rzVOBf8cPWbIgGG4g5NZyh2K//9hRv3vyBl3RcrzgYYHhb/roKTzi1qhaEcxB7AFhDOgmb8WHrdDmje+A4FUOSeBeY3im+i8t9yJ8wXORXmq86ciWll7C2a37xjiqNVyvYVjq2P0FGLBah0w5QP/5nC5akuCSLgUuhtmKMuqhRm4vmcImRuQIPTSo8a5LMmxRrLTmvkLNy9NFcMTbjFHkawvkgzmrMvLJYWINFK7V2ChEuMIv5NuaALyJpaAfRf/b00uHgnfQBZCSGzF185/3m8mr/9MMxG2Rm7E+ftoqbr0a6ym9RnjchB1w== packt@gmail.com)
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ 
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ a-p ssh_key_playbook14.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Creating user] ****************************************************************************************************************************************************************************
+ok: [ubuntu2] => (item={'value': {u'full_name': u'Lilly R'}, 'key': u'lilly'})
+ok: [centos2] => (item={'value': {u'full_name': u'Lilly R'}, 'key': u'lilly'})
+
+TASK [Create authorized key] ********************************************************************************************************************************************************************
+ok: [ubuntu2] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDpHPZxDE8G0J5Z4Zg8+ZPqN9V024A25OAlud3yefHnZKXDvkvlsu2N1ODCm1Vw3MCfNCqxEimK4hYvayNffCcdqdL6KIRsRS8Z7LyHhplz/joH7YIXRc0K8IH2LymRon0bflv3WViOSUHUW9jRgIZmu7UTS4HHfe9gXfjwEbtIXmKkut7MHDenBsoe9iW40Y58pxlm/ZNI+KviW+espmMmydDKbpGCNt2g9S0JDJuU9euweshIm5YGtgYpFKuJdSjbw8sP0mb8Zi9G2Nre96Lw6k6I4k/pfTVLARTdFbO8K9yrBtbuNOT+BdjRhAF/yQ/w894Nt7WhdVWIWBjn8WVHyNSBxeuDWoOUzzP/Y+ygS/UNWSe41rzVOBf8cPWbIgGG4g5NZyh2K//9hRv3vyBl3RcrzgYYHhb/roKTzi1qhaEcxB7AFhDOgmb8WHrdDmje+A4FUOSeBeY3im+i8t9yJ8wXORXmq86ciWll7C2a37xjiqNVyvYVjq2P0FGLBah0w5QP/5nC5akuCSLgUuhtmKMuqhRm4vmcImRuQIPTSo8a5LMmxRrLTmvkLNy9NFcMTbjFHkawvkgzmrMvLJYWINFK7V2ChEuMIv5NuaALyJpaAfRf/b00uHgnfQBZCSGzF185/3m8mr/9MMxG2Rm7E+ftoqbr0a6ym9RnjchB1w== robq71@gmail.com)
+ok: [centos2] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDpHPZxDE8G0J5Z4Zg8+ZPqN9V024A25OAlud3yefHnZKXDvkvlsu2N1ODCm1Vw3MCfNCqxEimK4hYvayNffCcdqdL6KIRsRS8Z7LyHhplz/joH7YIXRc0K8IH2LymRon0bflv3WViOSUHUW9jRgIZmu7UTS4HHfe9gXfjwEbtIXmKkut7MHDenBsoe9iW40Y58pxlm/ZNI+KviW+espmMmydDKbpGCNt2g9S0JDJuU9euweshIm5YGtgYpFKuJdSjbw8sP0mb8Zi9G2Nre96Lw6k6I4k/pfTVLARTdFbO8K9yrBtbuNOT+BdjRhAF/yQ/w894Nt7WhdVWIWBjn8WVHyNSBxeuDWoOUzzP/Y+ygS/UNWSe41rzVOBf8cPWbIgGG4g5NZyh2K//9hRv3vyBl3RcrzgYYHhb/roKTzi1qhaEcxB7AFhDOgmb8WHrdDmje+A4FUOSeBeY3im+i8t9yJ8wXORXmq86ciWll7C2a37xjiqNVyvYVjq2P0FGLBah0w5QP/5nC5akuCSLgUuhtmKMuqhRm4vmcImRuQIPTSo8a5LMmxRrLTmvkLNy9NFcMTbjFHkawvkgzmrMvLJYWINFK7V2ChEuMIv5NuaALyJpaAfRf/b00uHgnfQBZCSGzF185/3m8mr/9MMxG2Rm7E+ftoqbr0a6ym9RnjchB1w== robq71@gmail.com)
+ok: [ubuntu2] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVuW/BVADBwOV/IkWgh52GD6muOEKKr5DcjS8LHcA9fw+d4yQY/oE65XJs2Oblrw5+7/kKSWj9g+JTxuAbm1PXhoPwKVGRRmlSbkoz0XGVZyaXv16Z4GdbOlbF/2zoyg9++SMeZ1y2cZrFF45sO+KZvr3V+z1cQJLyABtR+LaYQyVQ5DfC3BNvGuPL1MqMFFvHCw6C760+4VEcNek1t7GqJRS1nO5aLT5Hso1JAn4A8FjOxZDAS9FxafpBSKMDAAUQH6lu8ZtlUUwpXo4LPaTltVvTIZA4pAoN7uHFTOIlFC7zxB/vaFavNkrGEe4StVmCLgga3kYYxIFExx3tFqcx packt@ubuntu-c)
+ok: [centos2] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVuW/BVADBwOV/IkWgh52GD6muOEKKr5DcjS8LHcA9fw+d4yQY/oE65XJs2Oblrw5+7/kKSWj9g+JTxuAbm1PXhoPwKVGRRmlSbkoz0XGVZyaXv16Z4GdbOlbF/2zoyg9++SMeZ1y2cZrFF45sO+KZvr3V+z1cQJLyABtR+LaYQyVQ5DfC3BNvGuPL1MqMFFvHCw6C760+4VEcNek1t7GqJRS1nO5aLT5Hso1JAn4A8FjOxZDAS9FxafpBSKMDAAUQH6lu8ZtlUUwpXo4LPaTltVvTIZA4pAoN7uHFTOIlFC7zxB/vaFavNkrGEe4StVmCLgga3kYYxIFExx3tFqcx packt@ubuntu-c)
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ ssh packt@192.168.0.46 cat /home/lilly/.ssh/authorized_keys
+cat: /home/lilly/.ssh/authorized_keys: Permission denied
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ ssh packt@192.168.0.46 -l root cat /home/lilly/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDpHPZxDE8G0J5Z4Zg8+ZPqN9V024A25OAlud3yefHnZKXDvkvlsu2N1ODCm1Vw3MCfNCqxEimK4hYvayNffCcdqdL6KIRsRS8Z7LyHhplz/joH7YIXRc0K8IH2LymRon0bflv3WViOSUHUW9jRgIZmu7UTS4HHfe9gXfjwEbtIXmKkut7MHDenBsoe9iW40Y58pxlm/ZNI+KviW+espmMmydDKbpGCNt2g9S0JDJuU9euweshIm5YGtgYpFKuJdSjbw8sP0mb8Zi9G2Nre96Lw6k6I4k/pfTVLARTdFbO8K9yrBtbuNOT+BdjRhAF/yQ/w894Nt7WhdVWIWBjn8WVHyNSBxeuDWoOUzzP/Y+ygS/UNWSe41rzVOBf8cPWbIgGG4g5NZyh2K//9hRv3vyBl3RcrzgYYHhb/roKTzi1qhaEcxB7AFhDOgmb8WHrdDmje+A4FUOSeBeY3im+i8t9yJ8wXORXmq86ciWll7C2a37xjiqNVyvYVjq2P0FGLBah0w5QP/5nC5akuCSLgUuhtmKMuqhRm4vmcImRuQIPTSo8a5LMmxRrLTmvkLNy9NFcMTbjFHkawvkgzmrMvLJYWINFK7V2ChEuMIv5NuaALyJpaAfRf/b00uHgnfQBZCSGzF185/3m8mr/9MMxG2Rm7E+ftoqbr0a6ym9RnjchB1w== packt@gmail.com
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVuW/BVADBwOV/IkWgh52GD6muOEKKr5DcjS8LHcA9fw+d4yQY/oE65XJs2Oblrw5+7/kKSWj9g+JTxuAbm1PXhoPwKVGRRmlSbkoz0XGVZyaXv16Z4GdbOlbF/2zoyg9++SMeZ1y2cZrFF45sO+KZvr3V+z1cQJLyABtR+LaYQyVQ5DfC3BNvGuPL1MqMFFvHCw6C760+4VEcNek1t7GqJRS1nO5aLT5Hso1JAn4A8FjOxZDAS9FxafpBSKMDAAUQH6lu8ZtlUUwpXo4LPaTltVvTIZA4pAoN7uHFTOIlFC7zxB/vaFavNkrGEe4StVmCLgga3kYYxIFExx3tFqcx packt@ubuntu-c
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ 
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ gs
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	new file:   count_directory_sequence_playbook18.yml
+	new file:   directory_sequence15.yml
+	new file:   directory_sequence16.yml
+	new file:   hex_directory_sequence_playbook17.yml
+	new file:   random.sh
+	new file:   random_choice_playbook19.yml
+	new file:   ssh_key_playbook14.yml
+	new file:   until_playbook20.yml
+	new file:   user_playbook11.yml
+	new file:   user_playbook12.yml
+	new file:   user_playbook13.yml
+	modified:   ../../../installation-and-notes.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   ssh_key_playbook14.yml
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	custom_key
+	custom_key.pub
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$
+
+# Output from directory_sequence15 & 16 : hex_directory_sequence_playbook17 : 
+# count_directory_sequence_playbook18 and random_choice_playbook19
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ ssh packt@192.168.0.46 -l root tree -a /home/lilly
+/home/lilly
+├── apple
+├── .bash_logout
+├── .bash_profile
+├── .bashrc
+├── count_sequence_1
+├── count_sequence_2
+├── count_sequence_3
+├── count_sequence_4
+├── count_sequence_5
+├── dancing
+├── documents
+├── hex_sequence_0
+├── hex_sequence_1
+├── hex_sequence_10
+├── hex_sequence_2
+├── hex_sequence_3
+├── hex_sequence_4
+├── hex_sequence_5
+├── hex_sequence_6
+├── hex_sequence_7
+├── hex_sequence_8
+├── hex_sequence_9
+├── hex_sequence_a
+├── hex_sequence_b
+├── hex_sequence_c
+├── hex_sequence_d
+├── hex_sequence_e
+├── hex_sequence_f
+├── microsoft
+├── movies
+├── photos
+├── sequence_0
+├── sequence_10
+├── sequence_100
+├── sequence_20
+├── sequence_30
+├── sequence_40
+├── sequence_50
+├── sequence_60
+├── sequence_70
+├── sequence_80
+├── sequence_90
+└── .ssh
+    └── authorized_keys
+
+40 directories, 4 files
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ 
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$ a-p until_playbook20.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Run a script until we hit 10] *************************************************************************************************************************************************************
+FAILED - RETRYING: Run a script until we hit 10 (100 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (100 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (99 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (99 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (98 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (98 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (97 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (97 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (96 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (96 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (95 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (95 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (94 retries left).
+changed: [ubuntu2]
+FAILED - RETRYING: Run a script until we hit 10 (88 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (87 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (86 retries left).
+FAILED - RETRYING: Run a script until we hit 10 (85 retries left).
+changed: [centos2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$
+
