@@ -1544,18 +1544,13 @@ ok: [centos2]
 
 TASK [Run a script until we hit 10] *************************************************************************************************************************************************************
 FAILED - RETRYING: Run a script until we hit 10 (100 retries left).
-FAILED - RETRYING: Run a script until we hit 10 (100 retries left).
-FAILED - RETRYING: Run a script until we hit 10 (99 retries left).
-FAILED - RETRYING: Run a script until we hit 10 (99 retries left).
-FAILED - RETRYING: Run a script until we hit 10 (98 retries left).
-FAILED - RETRYING: Run a script until we hit 10 (98 retries left).
-FAILED - RETRYING: Run a script until we hit 10 (97 retries left).
-FAILED - RETRYING: Run a script until we hit 10 (97 retries left).
+...........
 FAILED - RETRYING: Run a script until we hit 10 (96 retries left).
 FAILED - RETRYING: Run a script until we hit 10 (96 retries left).
 FAILED - RETRYING: Run a script until we hit 10 (95 retries left).
 FAILED - RETRYING: Run a script until we hit 10 (95 retries left).
 FAILED - RETRYING: Run a script until we hit 10 (94 retries left).
+............
 changed: [ubuntu2]
 FAILED - RETRYING: Run a script until we hit 10 (88 retries left).
 FAILED - RETRYING: Run a script until we hit 10 (87 retries left).
@@ -1568,4 +1563,12 @@ centos2                    : ok=2    changed=1    unreachable=0    failed=0    s
 ubuntu2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$
+
+## Section 3 - 5. Asynchronous and Parallel
+
+- Asynchronous and Parallel
+- Playbook performance and bottlenecks
+- Polling
+- Asynchronous job identifiers
+- Asynchronous status handling
 
