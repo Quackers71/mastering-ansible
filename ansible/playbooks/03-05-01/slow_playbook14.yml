@@ -25,11 +25,5 @@
     - name: Task 4
       command: "/bin/sleep {{ 10 |random}}"
 
-    - name: Task 5
-      command: "/bin/sleep {{ 10 |random}}"
-
-    - name: Task 6
-      command: "/bin/sleep {{ 10 |random}}"
-
 # Three dots indicate the end of a YAML document
 ...
