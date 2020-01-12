@@ -1674,3 +1674,15 @@ ubuntu2                    : ok=5    changed=2    unreachable=0    failed=0    s
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-05-01$ 
 
+## Section 3 - 6. Task Delegation
+
+- Task delegation
+- How we can delegate specific tasks, for execution on specific targets
+
+ssh packt@192.168.0.40 # dnsmasq
+sudo su
+apt-get update
+apt-get install python-pip
+pip install hostsman
+which hostsman
+
