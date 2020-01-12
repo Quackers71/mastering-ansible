@@ -1870,3 +1870,5 @@ ff02::1	ip6-allnodes
 ff02::2	ip6-allrouters
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-06-01$
 
+## Section 3 - 7. Magic Variables
+
