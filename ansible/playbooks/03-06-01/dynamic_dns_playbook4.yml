@@ -24,7 +24,7 @@
 
     - name: Check DNS entries for all hosts
       debug: 
-        msg: "The IPv4 address for dynamic_{{ item }} is {{ lookup('dig', 'dynamic_{{ item }}') }}"
+        msg: "The IPv4 address for 10.0.{{ item }} is {{ lookup('dig', '10.0.{{ item }}.') }}"
       with_items: "{{ play_hosts }}"
 
 # Three dots indicate the end of a YAML document

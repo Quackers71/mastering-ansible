@@ -1778,3 +1778,95 @@ ubuntu2                    : ok=2    changed=1    unreachable=0    failed=1    s
 # From the start the hostname has never been able to resolve for me :-(
 # I will need to fix ;-)
 
+# Lolz - Partially fixed using local IP's 10.0.
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-06-01$ a-p dynamic_dns_playbook4.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Add dynamic dns rule] *********************************************************************************************************************************************************************
+changed: [ubuntu2 -> None]
+changed: [centos2 -> None]
+
+TASK [Reload dnsmasq] ***************************************************************************************************************************************************************************
+changed: [centos2 -> None]
+
+TASK [Check DNS entries for all hosts] **********************************************************************************************************************************************************
+ok: [centos2] => (item=centos2) => {
+    "msg": "The IPv4 address for 10.0.centos2 is NXDOMAIN"
+}
+ok: [centos2] => (item=ubuntu2) => {
+    "msg": "The IPv4 address for 10.0.ubuntu2 is NXDOMAIN"
+}
+ok: [ubuntu2] => (item=centos2) => {
+    "msg": "The IPv4 address for 10.0.centos2 is NXDOMAIN"
+}
+ok: [ubuntu2] => (item=ubuntu2) => {
+    "msg": "The IPv4 address for 10.0.ubuntu2 is NXDOMAIN"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-06-01$ a-p dynamic_dns_playbook5.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Add dynamic dns rule] *********************************************************************************************************************************************************************
+changed: [ubuntu2 -> None]
+changed: [centos2 -> None]
+
+TASK [Reload dnsmasq] ***************************************************************************************************************************************************************************
+changed: [centos2 -> None]
+
+TASK [Check DNS entries for all hosts] **********************************************************************************************************************************************************
+ok: [centos2] => (item=centos2) => {
+    "msg": "The IPv4 address for dynamic_centos2 is NXDOMAIN"
+}
+ok: [centos2] => (item=ubuntu2) => {
+    "msg": "The IPv4 address for dynamic_ubuntu2 is NXDOMAIN"
+}
+ok: [ubuntu2] => (item=centos2) => {
+    "msg": "The IPv4 address for dynamic_centos2 is NXDOMAIN"
+}
+ok: [ubuntu2] => (item=ubuntu2) => {
+    "msg": "The IPv4 address for dynamic_ubuntu2 is NXDOMAIN"
+}
+
+TASK [Remove dynamic dns rule] ******************************************************************************************************************************************************************
+changed: [centos2 -> None]
+changed: [ubuntu2 -> None]
+
+TASK [Reload dnsmasq] ***************************************************************************************************************************************************************************
+changed: [centos2 -> None]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-06-01$ ssh packt@192.168.0.40 cat /etc/hosts
+127.0.0.1	localhost
+192.168.0.40	dnsmasq
+192.168.0.48	robq-VirtualBox
+192.168.0.42	ubuntu1
+192.168.0.43	ubuntu2
+192.168.0.44	ubuntu3
+192.168.0.45	centos1
+192.168.0.46	centos2
+192.168.0.47	centos3
+
+# The following lines are desirable for IPv6 capable hosts
+::1	localhost ip6-localhost ip6-loopback
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-06-01$
+
