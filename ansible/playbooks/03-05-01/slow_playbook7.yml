@@ -17,45 +17,17 @@
   tasks:
     - name: Task 1
       command: /bin/sleep 5
-      when: ansible_hostname == 'centos1'
+      when: ansible_hostname == 'centos2'
       async: 10
       poll: 0
       register: result1
 
     - name: Task 2
       command: /bin/sleep 5
-      when: ansible_hostname == 'centos2'
-      async: 10
-      poll: 0
-      register: result2
-
-    - name: Task 3
-      command: /bin/sleep 5
-      when: ansible_hostname == 'centos3'
-      async: 10
-      poll: 0
-      register: result3
-
-    - name: Task 4
-      command: /bin/sleep 30
-      when: ansible_hostname == 'ubuntu1'
-      async: 60
-      poll: 0
-      register: result4
-
-    - name: Task 5
-      command: /bin/sleep 5
       when: ansible_hostname == 'ubuntu2'
       async: 10
       poll: 0
-      register: result5
-
-    - name: Task 6
-      command: /bin/sleep 5
-      when: ansible_hostname == 'ubuntu3'
-      async: 10
-      poll: 0
-      register: result6
+      register: result2
 
     - name: Capture Job IDs
       set_fact:
@@ -65,7 +37,7 @@
                 {% else -%}
                   {{ jobids }}
                 {% endif %}
-      with_items: "{{ [ result1, result2, result3, result4, result5, result6 ] }}"
+      with_items: "{{ [ result1, result2 ] }}"
 
     - name: Show Job IDs
       debug:

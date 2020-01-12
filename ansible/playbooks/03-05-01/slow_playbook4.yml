@@ -13,37 +13,13 @@
   tasks:
     - name: Task 1
       command: /bin/sleep 5
-      when: ansible_hostname == 'centos1'
-      async: 10
-      poll: 0
-
-    - name: Task 2
-      command: /bin/sleep 5
       when: ansible_hostname == 'centos2'
       async: 10
       poll: 0
 
-    - name: Task 3
-      command: /bin/sleep 5
-      when: ansible_hostname == 'centos3'
-      async: 10
-      poll: 0
-
-    - name: Task 4
+    - name: Task 2
       command: /bin/sleep 30
-      when: ansible_hostname == 'ubuntu1'
-      async: 10
-      poll: 0
-
-    - name: Task 5
-      command: /bin/sleep 5
       when: ansible_hostname == 'ubuntu2'
-      async: 10
-      poll: 0
-
-    - name: Task 6
-      command: /bin/sleep 5
-      when: ansible_hostname == 'ubuntu3'
       async: 10
       poll: 0
 

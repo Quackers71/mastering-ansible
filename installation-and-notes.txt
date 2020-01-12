@@ -1572,3 +1572,105 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-04-01$
 - Asynchronous job identifiers
 - Asynchronous status handling
 
+# Asynchronous output for slow_playbook3 & 4 - s_pb4 poll set to 0 and Task2 set to /bin/sleep 30
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-05-01$ time a-p slow_playbook3.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Task 1] ***********************************************************************************************************************************************************************************
+skipping: [ubuntu2]
+changed: [centos2]
+
+TASK [Task 2] ***********************************************************************************************************************************************************************************
+skipping: [centos2]
+changed: [ubuntu2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+
+real	0m17.703s
+user	0m4.929s
+sys	0m1.038s
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-05-01$ time a-p slow_playbook4.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Task 1] ***********************************************************************************************************************************************************************************
+skipping: [ubuntu2]
+changed: [centos2]
+
+TASK [Task 2] ***********************************************************************************************************************************************************************************
+skipping: [centos2]
+changed: [ubuntu2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+
+real	0m7.267s
+user	0m4.472s
+sys	0m0.949s
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-05-01$ ps -ef | grep ansible
+robq      2797  2764  0 Jan09 ?        00:00:30 /usr/share/code/code /home/robq/.vscode/extensions/vscoss.vscode-ansible-0.5.2/node_modules/vscode-languageclient/lib/utils/electronForkStart /home/robq/.vscode/extensions/vscoss.vscode-ansible-0.5.2/out/server/server.js --node-ipc --clientProcessId=2764
+robq     19292     1  0 15:38 ?        00:00:00 ssh: /home/robq/.ansible/cp/de89ebd5a7 [mux]
+robq     19303     1  0 15:38 ?        00:00:00 ssh: /home/robq/.ansible/cp/456c47d43e [mux]
+robq     19338 13507  0 15:38 pts/0    00:00:00 grep --color=auto ansible
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-05-01$ a-p slow_playbook7.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Task 1] ***********************************************************************************************************************************************************************************
+skipping: [ubuntu2]
+changed: [centos2]
+
+TASK [Task 2] ***********************************************************************************************************************************************************************************
+skipping: [centos2]
+changed: [ubuntu2]
+
+TASK [Capture Job IDs] **************************************************************************************************************************************************************************
+ok: [centos2] => (item={'failed': False, u'finished': 0, u'results_file': u'/root/.ansible_async/94629011307.19245', u'ansible_job_id': u'94629011307.19245', u'started': 1, 'changed': True})
+ok: [centos2] => (item={'skipped': True, 'changed': False, 'skip_reason': u'Conditional result was False'})
+ok: [ubuntu2] => (item={'skipped': True, 'changed': False, 'skip_reason': u'Conditional result was False'})
+ok: [ubuntu2] => (item={'failed': False, u'finished': 0, u'results_file': u'/root/.ansible_async/99189408348.14634', u'ansible_job_id': u'99189408348.14634', u'started': 1, 'changed': True})
+
+TASK [Show Job IDs] *****************************************************************************************************************************************************************************
+ok: [centos2] => {
+    "jobids": [
+        "94629011307.19245"
+    ]
+}
+ok: [ubuntu2] => {
+    "jobids": [
+        "99189408348.14634"
+    ]
+}
+
+TASK [Wait for Job IDs] *************************************************************************************************************************************************************************
+FAILED - RETRYING: Wait for Job IDs (30 retries left).
+FAILED - RETRYING: Wait for Job IDs (30 retries left).
+changed: [ubuntu2] => (item=99189408348.14634)
+changed: [centos2] => (item=94629011307.19245)
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=5    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ubuntu2                    : ok=5    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-05-01$ 
+
