@@ -2158,3 +2158,94 @@ ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    s
 - Create a basic module using shell scripting
 - Transition our shell scripted module to the Ansible module Python framework
 
+qh # cd ~/
+mkdir src
+cd src
+git clone https://github.com/ansible/ansible.git
+cd ..
+src/ansible/hacking/test-module -m src/ansible/lib/ansible/modules/commands/command.py -a hostname
+* including generated source, if any, saving to: /home/robq/.ansible_module_generated
+* ansiballz module detected; extracted module source to: /home/robq/debug_dir
+***********************************
+RAW OUTPUT
+WARNING: Unknown debug command.  Doing nothing.
+
+
+***********************************
+INVALID OUTPUT FORMAT
+WARNING: Unknown debug command.  Doing nothing.
+
+Traceback (most recent call last):
+  File "src/ansible/hacking/test-module", line 238, in runtest
+    results = json.loads(out)
+  File "/usr/lib/python2.7/json/__init__.py", line 339, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python2.7/json/decoder.py", line 364, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python2.7/json/decoder.py", line 382, in raw_decode
+    raise ValueError("No JSON object could be decoded")
+ValueError: No JSON object could be decoded
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ ./icmp.sh 
+{"changed": true, "rc": 0}
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ ./icmp2.sh 
+{"failed": true, "msg": "failed to ping", "rc": 1}
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ ~/src/ansible/hacking/test-module -m ./icmp.sh 
+* including generated source, if any, saving to: /home/robq/.ansible_module_generated
+***********************************
+RAW OUTPUT
+{"changed": true, "rc": 0}
+
+
+***********************************
+PARSED OUTPUT
+{
+    "changed": true, 
+    "rc": 0
+}
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ ~/src/ansible/hacking/test-module -m ./icmp4.sh -a 'target=127.0.0.1'
+* including generated source, if any, saving to: /home/robq/.ansible_module_generated
+***********************************
+RAW OUTPUT
+{"changed": true, "rc": 0}
+
+
+***********************************
+PARSED OUTPUT
+{
+    "changed": true, 
+    "rc": 0
+}
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ ~/src/ansible/hacking/test-module -m ./icmp4.sh -a 'target=128.0.0.1'
+* including generated source, if any, saving to: /home/robq/.ansible_module_generated
+***********************************
+RAW OUTPUT
+{"failed": true, "msg": "failed to ping", "rc": 1}
+
+
+***********************************
+PARSED OUTPUT
+{
+    "failed": true, 
+    "msg": "failed to ping", 
+    "rc": 1
+}
+
+# In a New Terminal Window Run:
+watch --differences 'ps -ef | grep ansible | grep -v grep'
+
+# Now run your test module again
+~/src/ansible/hacking/test-module -m ./icmp4.sh -a 'target=128.0.0.1'
+
+# 2nd Terminal Watch Output
+
+Every 2.0s: ps -ef | grep ansible | grep -v grep      robq-VirtualBox: Tue Jan 14 22:12:13 2020
+
+robq     11956 13507  8 22:12 pts/0    00:00:00 python /home/robq/src/ansible/hacking/test-modu
+robq     11963 11956  0 22:12 pts/0    00:00:00 /bin/sh -c /home/robq/.ansible_module_generated
+robq     11964 11963  0 22:12 pts/0    00:00:00 /bin/bash /home/robq/.ansible_module_generated
+
