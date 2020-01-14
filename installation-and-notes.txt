@@ -1937,3 +1937,39 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-08-01$
 - Re-Encrypting data
 - Using Multiple Vaults
 
+ansible-vault encrypt_string --ask-vault-pass --name 'ansible_become_pass' '$your_password'
+ansible --ask-vault-pass all -m ping -o
+
+# Revision 2
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ ansible-vault --ask-vault-pass encrypt external_vault_vars.yml
+New Vault password: 
+Confirm New Vault password: 
+Encryption successful
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --ask-vault-pass vault_playbook1.yml 
+Vault password: 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Show external_vault_var] ******************************************************************************************************************************************************************
+ok: [ubuntu2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+ok: [centos2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --ask-vault-pass vault_playbook1.yml 
+Vault password: 
+ERROR! Decryption failed (no vault secrets were found that could decrypt) on /home/robq/mastering-ansible/ansible/playbooks/03-09-01/external_vault_vars.yml
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ 
+
