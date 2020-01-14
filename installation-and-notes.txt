@@ -1971,5 +1971,11 @@ ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    s
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --ask-vault-pass vault_playbook1.yml 
 Vault password: 
 ERROR! Decryption failed (no vault secrets were found that could decrypt) on /home/robq/mastering-ansible/ansible/playbooks/03-09-01/external_vault_vars.yml
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --ask-vault-pass decrypt external_vault_vars.yml 
+Vault password: 
+Decryption successful
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ cat external_vault_vars.yml 
+external_vault_var: Example External Vault Var
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ 
 
