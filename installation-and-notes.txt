@@ -1872,3 +1872,7 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-06-01$
 
 ## Section 3 - 7. Magic Variables
 
+# The dump_vars_playbook.yml when ran will pull variables from all of the hosts including control, 
+  using the templates/dump_variables file to format the output into yaml...
+# Outputs for all the hosts can be found in the captured_variables folder
+
