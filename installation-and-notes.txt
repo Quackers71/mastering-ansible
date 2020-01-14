@@ -1876,3 +1876,10 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-06-01$
   using the templates/dump_variables file to format the output into yaml...
 # Outputs for all the hosts can be found in the captured_variables folder
 
+## Section 3 - 8. Blocks
+
+- Blocks
+- How to group multiple tasks, into a single block
+- Rescue
+- Always
+
