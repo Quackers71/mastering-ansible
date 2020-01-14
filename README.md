@@ -2,7 +2,7 @@
 
 ## Master Ansible - Udemy
 
-``` Course Content ```
+### Course Content
 
 * Section 1: Installation and Configuration of Ansible
 * Section 2: Ansible Architecture and Design
