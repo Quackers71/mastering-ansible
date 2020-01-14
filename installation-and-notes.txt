@@ -1929,3 +1929,11 @@ ubuntu2                    : ok=3    changed=0    unreachable=0    failed=0    s
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-08-01$ 
 
+## Section 3 - 9. Using the Ansible Vault
+
+- Using the Ansible Vault
+- Encrypting / Decrypting Variables
+- Encrypting and Decrypting files
+- Re-Encrypting data
+- Using Multiple Vaults
+
