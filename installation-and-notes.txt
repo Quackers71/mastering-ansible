@@ -1883,3 +1883,49 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-06-01$
 - Rescue
 - Always
 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-08-01$ a-p blocks_playbook2.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Example 1 CentOS only] ********************************************************************************************************************************************************************
+skipping: [ubuntu2]
+ok: [centos2] => {
+    "msg": "Example 1 CentOS only"
+}
+
+TASK [Example 2 Ubuntu only] ********************************************************************************************************************************************************************
+ok: [ubuntu2] => {
+    "msg": "Example 2 Ubuntu only"
+}
+skipping: [centos2]
+
+TASK [Example 3 with items] *********************************************************************************************************************************************************************
+ok: [ubuntu2] => (item=x) => {
+    "msg": "Example 3 with items - x"
+}
+ok: [ubuntu2] => (item=y) => {
+    "msg": "Example 3 with items - y"
+}
+ok: [ubuntu2] => (item=z) => {
+    "msg": "Example 3 with items - z"
+}
+ok: [centos2] => (item=x) => {
+    "msg": "Example 3 with items - x"
+}
+ok: [centos2] => (item=y) => {
+    "msg": "Example 3 with items - y"
+}
+ok: [centos2] => (item=z) => {
+    "msg": "Example 3 with items - z"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ubuntu2                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-08-01$ 
+
