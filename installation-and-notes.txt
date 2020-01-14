@@ -2150,3 +2150,11 @@ PLAY RECAP *********************************************************************
 centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
+## Section 3 - 10. Creating Custom Modules
+
+- Creating custom modules
+- Using the Ansible development tools, to test modules
+- Understand the module requirements for input and output
+- Create a basic module using shell scripting
+- Transition our shell scripted module to the Ansible module Python framework
+
