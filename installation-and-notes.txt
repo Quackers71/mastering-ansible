@@ -2051,3 +2051,102 @@ PLAY RECAP *********************************************************************
 centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --ask-vault-pass view external_vault_vars.yml 
+Vault password: 
+external_vault_var: Example External Vault Var
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --vault-id password_file view external_vault_vars.yml 
+external_vault_var: Example External Vault Var
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --vault-id @prompt view external_vault_vars.yml 
+Vault password (default): 
+external_vault_var: Example External Vault Var
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --vault-id @password_file view external_vault_vars.yml 
+external_vault_var: Example External Vault Var
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --vault-id vars@prompt encrypt external_vault_vars.yml 
+New vault password (vars): 
+Confirm new vault password (vars): 
+Encryption successful
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ gdf external_vault_vars.yml 
+diff --git a/ansible/playbooks/03-09-01/external_vault_vars.yml b/ansible/playbooks/03-09-01/external_vault_vars.yml
+index 16c224d..54921e1 100644
+--- a/ansible/playbooks/03-09-01/external_vault_vars.yml
++++ b/ansible/playbooks/03-09-01/external_vault_vars.yml
+@@ -1,7 +1,7 @@
+-$ANSIBLE_VAULT;1.1;AES256
+-35313532616631313931373664333239383230366533393863313134303434373531323230636537
+-3235653162383261636333633964396566643233653536640a316266646661333966306132626563
+-65626363323732326462306639323036343235613136316135373931353166336166343336663436
+-6465653330363132350a393834643930623139343961666234623361646535613837333634653133
+-30366165306231373962643438333130623366363237356638363266323163326530626561306433
+-6131303431396437326534336532333566633333363662376633
++$ANSIBLE_VAULT;1.2;AES256;vars
++30376334653030373561323562363638326336636635336466396133303663626330323637343463
++6665326164643031343666663964356135663166373532320a313735323334643936316630376234
++66383064336634666437393666373136626466646236376230356637333633396337656662373366
++3035656635386537620a396236613233623237643631663364323661313330366132313339636665
++66383033616164376138313633333266616166393937313731393061663835386661323365316234
++3830656664356461343537666539336136326265336637653836
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v encrypt_string --vault-id ssh@prompt --name 'ansible_become_pass' 'password'
+New vault password (ssh): 
+Confirm new vault password (ssh): 
+ansible_become_pass: !vault |
+          $ANSIBLE_VAULT;1.2;AES256;ssh
+          38393466626636663232306566336330373261626363353762623831626566343664326637343165
+          6265623061356662656661626661666138313564393634390a323661643166386362663736663635
+          34343233313134643163623462343138333833616430316436663439303364363238616439386666
+          3331666464376562640a633436343730393233623231386663323633326237303338356535666139
+          3861
+Encryption successful
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --vault-id vars@prompt --vault-id ssh@prompt vault_playbook3.yml 
+Vault password (vars): 
+Vault password (ssh): 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Show external_vault_var] ******************************************************************************************************************************************************************
+ok: [centos2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+ok: [ubuntu2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --vault-id playbook@prompt encrypt vault_playbook4.yml 
+New vault password (playbook): 
+Confirm new vault password (playbook): 
+Encryption successful
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --vault-id vars@prompt --vault-id ssh@prompt --vault-id playbook@prompt vault_playbook4.yml 
+Vault password (vars): 
+Vault password (ssh): 
+Vault password (playbook): 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Show external_vault_var] ******************************************************************************************************************************************************************
+ok: [centos2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+ok: [ubuntu2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
