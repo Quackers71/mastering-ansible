@@ -1979,3 +1979,75 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ cat externa
 external_vault_var: Example External Vault Var
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ 
 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --ask-vault-pass rekey external_vault_vars.yml 
+Vault password: 
+New Vault password: 
+Confirm New Vault password: 
+Rekey successful
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --ask-vault-pass vault_playbook1.yml 
+Vault password: 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+fatal: [ubuntu2]: FAILED! => {"msg": "Decryption failed (no vault secrets were found that could decrypt)"}
+ok: [centos2]
+
+TASK [Show external_vault_var] ******************************************************************************************************************************************************************
+ok: [centos2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a ubuntu2 --ask-vault-pass -m debug -a 'var=ansible_become_pass'
+Vault password: 
+ubuntu2 | SUCCESS => {
+    "ansible_become_pass": "password"
+}
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ head -10 group_vars/ubuntu 
+---
+ansible_user: packt
+ansible_become: true
+ansible_become_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          32383761383261363436303839303163326630393631366331326161633739383230333938666337
+          6266633931303466373862343862636133393263336664630a633539316433326335313331636534
+          34623462653363663633356139643663366539396264333632616435346530633264363332316465
+          3665633264343135330a663733396533613238353630623537396430323232343566313161616436
+          3863
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ echo '$ANSIBLE_VAULT;1.1;AES256
+> 32383761383261363436303839303163326630393631366331326161633739383230333938666337
+> 6266633931303466373862343862636133393263336664630a633539316433326335313331636534
+> 34623462653363663633356139643663366539396264333632616435346530633264363332316465
+> 3665633264343135330a663733396533613238353630623537396430323232343566313161616436
+> 3863' | ansible-vault decrypt -
+Vault password: 
+Decryption successful
+passwordrobq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --ask-vault-pass vault_playbook2.yml 
+Vault password: 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Show external_vault_var] ******************************************************************************************************************************************************************
+ok: [ubuntu2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+ok: [centos2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
