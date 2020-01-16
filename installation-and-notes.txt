@@ -2249,3 +2249,35 @@ robq     11956 13507  8 22:12 pts/0    00:00:00 python /home/robq/src/ansible/ha
 robq     11963 11956  0 22:12 pts/0    00:00:00 /bin/sh -c /home/robq/.ansible_module_generated
 robq     11964 11963  0 22:12 pts/0    00:00:00 /bin/bash /home/robq/.ansible_module_generated
 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ a-p icmp_playbook5.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+fatal: [ubuntu2]: FAILED! => {"msg": "Attempting to decrypt but no vault secrets found"}
+ok: [centos2]
+
+TASK [Test icmp module] *************************************************************************************************************************************************************************
+changed: [centos2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ a-p icmp_fail_playbook5.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+fatal: [ubuntu2]: FAILED! => {"msg": "Attempting to decrypt but no vault secrets found"}
+ok: [centos2]
+
+TASK [Test icmp module] *************************************************************************************************************************************************************************
+fatal: [centos2]: FAILED! => {"changed": false, "msg": "failed to ping", "rc": 1}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
+https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html
+
