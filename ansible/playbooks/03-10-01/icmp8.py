@@ -83,7 +83,7 @@ def run_module():
     # made any modifications to your target
     if module.params['target']:
         # Use this to show how to get the output
-        result['debug'] = ping_result
+        #result['debug'] = ping_result
         result['rc'] = ping_result[0]
         if result['rc']:
           result['failed'] = True
