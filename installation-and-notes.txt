@@ -2281,3 +2281,11 @@ ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    s
 
 https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html
 
+## Section 3 - 11. Creating Plugins
+
+- Creating plugins
+- The various types of plugins that are available
+- Custom directory locations for plugins
+- How to create a lookup plugin
+- How to create a filter plugin
+
