@@ -2374,3 +2374,18 @@ ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    s
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-11-01$ 
 
+## Section 4. Structuring Ansible Playbooks
+
+- Using includes and imports
+- Using tags
+- Using Roles
+
+## Section 4 - 1. Using includes and Imports
+
+- Using includes and imports
+  - include tasks
+  - include playbooks
+  - include_tasks
+  - import_playbook
+  - import_tasks
+  
