@@ -2289,3 +2289,88 @@ https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.htm
 - How to create a lookup plugin
 - How to create a filter plugin
 
+# Revision 1
+wget https://raw.githubusercontent.com/ansible/ansible/devel/lib/ansible/plugins/lookup/items.py
+
+# there is already a pre-edited version called sorted_items.py
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-11-01$ a-p sorted_items_playbook.yml 
+
+PLAY [centos2] **********************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [loop through list] ************************************************************************************************************************************************************************
+ok: [centos2] => (item=1) => {
+    "msg": "An item: 1"
+}
+ok: [centos2] => (item=2) => {
+    "msg": "An item: 2"
+}
+ok: [centos2] => (item=3) => {
+    "msg": "An item: 3"
+}
+ok: [centos2] => (item=A) => {
+    "msg": "An item: A"
+}
+ok: [centos2] => (item=M) => {
+    "msg": "An item: M"
+}
+ok: [centos2] => (item=Z) => {
+    "msg": "An item: Z"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+# Revision 2
+wget https://raw.githubusercontent.com/ansible/ansible/devel/lib/ansible/plugins/filter/core.py
+
+# there is already a pre-edited version called reverse_upper.py
+
+# test the python is valid
+python lookup_plugins/reverse_upper.py
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-11-01/filter_plugins$ python
+Python 2.7.15+ (default, Oct  7 2019, 17:39:04) 
+[GCC 7.4.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from reverse_upper import reverse_upper
+>>> print(reverse_upper)
+<function reverse_upper at 0x7fa9a22fb1b8>
+>>> reverse_upper('quackers yo yo')
+'OY OY SREKCAUQ'
+>>> 
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-11-01$ a-p reverse_upper_filter_playbook.yml 
+ [WARNING]: Skipping plugin (/home/robq/mastering-ansible/ansible/playbooks/03-11-01/filter_plugins/core.py) as it seems to be invalid: cannot import name recursive_check_defined
+
+
+PLAY [all] **************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+fatal: [ubuntu2]: FAILED! => {"msg": "Attempting to decrypt but no vault secrets found"}
+ok: [centos2]
+
+TASK [Reverse and upper ansible_distribution] ***************************************************************************************************************************************************
+ok: [centos2] => {
+    "msg": "Reverse and upper of ansible_distribution: SOTNEC"
+}
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [robq-VirtualBox]
+
+TASK [Reverse and upper ansible_distribution] ***************************************************************************************************************************************************
+ok: [robq-VirtualBox] => {
+    "msg": "Reverse and upper of ansible_distribution: TNIM XUNIL"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+robq-VirtualBox            : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-11-01$ 
+
