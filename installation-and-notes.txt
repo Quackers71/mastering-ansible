@@ -1876,3 +1876,501 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-06-01$
   using the templates/dump_variables file to format the output into yaml...
 # Outputs for all the hosts can be found in the captured_variables folder
 
+## Section 3 - 8. Blocks
+
+- Blocks
+- How to group multiple tasks, into a single block
+- Rescue
+- Always
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-08-01$ a-p blocks_playbook2.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Example 1 CentOS only] ********************************************************************************************************************************************************************
+skipping: [ubuntu2]
+ok: [centos2] => {
+    "msg": "Example 1 CentOS only"
+}
+
+TASK [Example 2 Ubuntu only] ********************************************************************************************************************************************************************
+ok: [ubuntu2] => {
+    "msg": "Example 2 Ubuntu only"
+}
+skipping: [centos2]
+
+TASK [Example 3 with items] *********************************************************************************************************************************************************************
+ok: [ubuntu2] => (item=x) => {
+    "msg": "Example 3 with items - x"
+}
+ok: [ubuntu2] => (item=y) => {
+    "msg": "Example 3 with items - y"
+}
+ok: [ubuntu2] => (item=z) => {
+    "msg": "Example 3 with items - z"
+}
+ok: [centos2] => (item=x) => {
+    "msg": "Example 3 with items - x"
+}
+ok: [centos2] => (item=y) => {
+    "msg": "Example 3 with items - y"
+}
+ok: [centos2] => (item=z) => {
+    "msg": "Example 3 with items - z"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ubuntu2                    : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-08-01$ 
+
+## Section 3 - 9. Using the Ansible Vault
+
+- Using the Ansible Vault
+- Encrypting / Decrypting Variables
+- Encrypting and Decrypting files
+- Re-Encrypting data
+- Using Multiple Vaults
+
+ansible-vault encrypt_string --ask-vault-pass --name 'ansible_become_pass' '$your_password'
+ansible --ask-vault-pass all -m ping -o
+
+# Revision 2
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ ansible-vault --ask-vault-pass encrypt external_vault_vars.yml
+New Vault password: 
+Confirm New Vault password: 
+Encryption successful
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --ask-vault-pass vault_playbook1.yml 
+Vault password: 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Show external_vault_var] ******************************************************************************************************************************************************************
+ok: [ubuntu2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+ok: [centos2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --ask-vault-pass vault_playbook1.yml 
+Vault password: 
+ERROR! Decryption failed (no vault secrets were found that could decrypt) on /home/robq/mastering-ansible/ansible/playbooks/03-09-01/external_vault_vars.yml
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --ask-vault-pass decrypt external_vault_vars.yml 
+Vault password: 
+Decryption successful
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ cat external_vault_vars.yml 
+external_vault_var: Example External Vault Var
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ 
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --ask-vault-pass rekey external_vault_vars.yml 
+Vault password: 
+New Vault password: 
+Confirm New Vault password: 
+Rekey successful
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --ask-vault-pass vault_playbook1.yml 
+Vault password: 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+fatal: [ubuntu2]: FAILED! => {"msg": "Decryption failed (no vault secrets were found that could decrypt)"}
+ok: [centos2]
+
+TASK [Show external_vault_var] ******************************************************************************************************************************************************************
+ok: [centos2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a ubuntu2 --ask-vault-pass -m debug -a 'var=ansible_become_pass'
+Vault password: 
+ubuntu2 | SUCCESS => {
+    "ansible_become_pass": "password"
+}
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ head -10 group_vars/ubuntu 
+---
+ansible_user: packt
+ansible_become: true
+ansible_become_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          32383761383261363436303839303163326630393631366331326161633739383230333938666337
+          6266633931303466373862343862636133393263336664630a633539316433326335313331636534
+          34623462653363663633356139643663366539396264333632616435346530633264363332316465
+          3665633264343135330a663733396533613238353630623537396430323232343566313161616436
+          3863
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ echo '$ANSIBLE_VAULT;1.1;AES256
+> 32383761383261363436303839303163326630393631366331326161633739383230333938666337
+> 6266633931303466373862343862636133393263336664630a633539316433326335313331636534
+> 34623462653363663633356139643663366539396264333632616435346530633264363332316465
+> 3665633264343135330a663733396533613238353630623537396430323232343566313161616436
+> 3863' | ansible-vault decrypt -
+Vault password: 
+Decryption successful
+passwordrobq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --ask-vault-pass vault_playbook2.yml 
+Vault password: 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Show external_vault_var] ******************************************************************************************************************************************************************
+ok: [ubuntu2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+ok: [centos2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --ask-vault-pass view external_vault_vars.yml 
+Vault password: 
+external_vault_var: Example External Vault Var
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --vault-id password_file view external_vault_vars.yml 
+external_vault_var: Example External Vault Var
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --vault-id @prompt view external_vault_vars.yml 
+Vault password (default): 
+external_vault_var: Example External Vault Var
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --vault-id @password_file view external_vault_vars.yml 
+external_vault_var: Example External Vault Var
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --vault-id vars@prompt encrypt external_vault_vars.yml 
+New vault password (vars): 
+Confirm new vault password (vars): 
+Encryption successful
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ gdf external_vault_vars.yml 
+diff --git a/ansible/playbooks/03-09-01/external_vault_vars.yml b/ansible/playbooks/03-09-01/external_vault_vars.yml
+index 16c224d..54921e1 100644
+--- a/ansible/playbooks/03-09-01/external_vault_vars.yml
++++ b/ansible/playbooks/03-09-01/external_vault_vars.yml
+@@ -1,7 +1,7 @@
+-$ANSIBLE_VAULT;1.1;AES256
+-35313532616631313931373664333239383230366533393863313134303434373531323230636537
+-3235653162383261636333633964396566643233653536640a316266646661333966306132626563
+-65626363323732326462306639323036343235613136316135373931353166336166343336663436
+-6465653330363132350a393834643930623139343961666234623361646535613837333634653133
+-30366165306231373962643438333130623366363237356638363266323163326530626561306433
+-6131303431396437326534336532333566633333363662376633
++$ANSIBLE_VAULT;1.2;AES256;vars
++30376334653030373561323562363638326336636635336466396133303663626330323637343463
++6665326164643031343666663964356135663166373532320a313735323334643936316630376234
++66383064336634666437393666373136626466646236376230356637333633396337656662373366
++3035656635386537620a396236613233623237643631663364323661313330366132313339636665
++66383033616164376138313633333266616166393937313731393061663835386661323365316234
++3830656664356461343537666539336136326265336637653836
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v encrypt_string --vault-id ssh@prompt --name 'ansible_become_pass' 'password'
+New vault password (ssh): 
+Confirm new vault password (ssh): 
+ansible_become_pass: !vault |
+          $ANSIBLE_VAULT;1.2;AES256;ssh
+          38393466626636663232306566336330373261626363353762623831626566343664326637343165
+          6265623061356662656661626661666138313564393634390a323661643166386362663736663635
+          34343233313134643163623462343138333833616430316436663439303364363238616439386666
+          3331666464376562640a633436343730393233623231386663323633326237303338356535666139
+          3861
+Encryption successful
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --vault-id vars@prompt --vault-id ssh@prompt vault_playbook3.yml 
+Vault password (vars): 
+Vault password (ssh): 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Show external_vault_var] ******************************************************************************************************************************************************************
+ok: [centos2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+ok: [ubuntu2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-v --vault-id playbook@prompt encrypt vault_playbook4.yml 
+New vault password (playbook): 
+Confirm new vault password (playbook): 
+Encryption successful
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-09-01$ a-p --vault-id vars@prompt --vault-id ssh@prompt --vault-id playbook@prompt vault_playbook4.yml 
+Vault password (vars): 
+Vault password (ssh): 
+Vault password (playbook): 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Show external_vault_var] ******************************************************************************************************************************************************************
+ok: [centos2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+ok: [ubuntu2] => {
+    "external_vault_var": "Example External Vault Var"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+## Section 3 - 10. Creating Custom Modules
+
+- Creating custom modules
+- Using the Ansible development tools, to test modules
+- Understand the module requirements for input and output
+- Create a basic module using shell scripting
+- Transition our shell scripted module to the Ansible module Python framework
+
+qh # cd ~/
+mkdir src
+cd src
+git clone https://github.com/ansible/ansible.git
+cd ..
+src/ansible/hacking/test-module -m src/ansible/lib/ansible/modules/commands/command.py -a hostname
+* including generated source, if any, saving to: /home/robq/.ansible_module_generated
+* ansiballz module detected; extracted module source to: /home/robq/debug_dir
+***********************************
+RAW OUTPUT
+WARNING: Unknown debug command.  Doing nothing.
+
+
+***********************************
+INVALID OUTPUT FORMAT
+WARNING: Unknown debug command.  Doing nothing.
+
+Traceback (most recent call last):
+  File "src/ansible/hacking/test-module", line 238, in runtest
+    results = json.loads(out)
+  File "/usr/lib/python2.7/json/__init__.py", line 339, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python2.7/json/decoder.py", line 364, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python2.7/json/decoder.py", line 382, in raw_decode
+    raise ValueError("No JSON object could be decoded")
+ValueError: No JSON object could be decoded
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ ./icmp.sh 
+{"changed": true, "rc": 0}
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ ./icmp2.sh 
+{"failed": true, "msg": "failed to ping", "rc": 1}
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ ~/src/ansible/hacking/test-module -m ./icmp.sh 
+* including generated source, if any, saving to: /home/robq/.ansible_module_generated
+***********************************
+RAW OUTPUT
+{"changed": true, "rc": 0}
+
+
+***********************************
+PARSED OUTPUT
+{
+    "changed": true, 
+    "rc": 0
+}
+
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ ~/src/ansible/hacking/test-module -m ./icmp4.sh -a 'target=127.0.0.1'
+* including generated source, if any, saving to: /home/robq/.ansible_module_generated
+***********************************
+RAW OUTPUT
+{"changed": true, "rc": 0}
+
+
+***********************************
+PARSED OUTPUT
+{
+    "changed": true, 
+    "rc": 0
+}
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ ~/src/ansible/hacking/test-module -m ./icmp4.sh -a 'target=128.0.0.1'
+* including generated source, if any, saving to: /home/robq/.ansible_module_generated
+***********************************
+RAW OUTPUT
+{"failed": true, "msg": "failed to ping", "rc": 1}
+
+
+***********************************
+PARSED OUTPUT
+{
+    "failed": true, 
+    "msg": "failed to ping", 
+    "rc": 1
+}
+
+# In a New Terminal Window Run:
+watch --differences 'ps -ef | grep ansible | grep -v grep'
+
+# Now run your test module again
+~/src/ansible/hacking/test-module -m ./icmp4.sh -a 'target=128.0.0.1'
+
+# 2nd Terminal Watch Output
+
+Every 2.0s: ps -ef | grep ansible | grep -v grep      robq-VirtualBox: Tue Jan 14 22:12:13 2020
+
+robq     11956 13507  8 22:12 pts/0    00:00:00 python /home/robq/src/ansible/hacking/test-modu
+robq     11963 11956  0 22:12 pts/0    00:00:00 /bin/sh -c /home/robq/.ansible_module_generated
+robq     11964 11963  0 22:12 pts/0    00:00:00 /bin/bash /home/robq/.ansible_module_generated
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ a-p icmp_playbook5.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+fatal: [ubuntu2]: FAILED! => {"msg": "Attempting to decrypt but no vault secrets found"}
+ok: [centos2]
+
+TASK [Test icmp module] *************************************************************************************************************************************************************************
+changed: [centos2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-10-01$ a-p icmp_fail_playbook5.yml 
+
+PLAY [linux] ************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+fatal: [ubuntu2]: FAILED! => {"msg": "Attempting to decrypt but no vault secrets found"}
+ok: [centos2]
+
+TASK [Test icmp module] *************************************************************************************************************************************************************************
+fatal: [centos2]: FAILED! => {"changed": false, "msg": "failed to ping", "rc": 1}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
+https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html
+
+## Section 3 - 11. Creating Plugins
+
+- Creating plugins
+- The various types of plugins that are available
+- Custom directory locations for plugins
+- How to create a lookup plugin
+- How to create a filter plugin
+
+# Revision 1
+wget https://raw.githubusercontent.com/ansible/ansible/devel/lib/ansible/plugins/lookup/items.py
+
+# there is already a pre-edited version called sorted_items.py
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-11-01$ a-p sorted_items_playbook.yml 
+
+PLAY [centos2] **********************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [loop through list] ************************************************************************************************************************************************************************
+ok: [centos2] => (item=1) => {
+    "msg": "An item: 1"
+}
+ok: [centos2] => (item=2) => {
+    "msg": "An item: 2"
+}
+ok: [centos2] => (item=3) => {
+    "msg": "An item: 3"
+}
+ok: [centos2] => (item=A) => {
+    "msg": "An item: A"
+}
+ok: [centos2] => (item=M) => {
+    "msg": "An item: M"
+}
+ok: [centos2] => (item=Z) => {
+    "msg": "An item: Z"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+# Revision 2
+wget https://raw.githubusercontent.com/ansible/ansible/devel/lib/ansible/plugins/filter/core.py
+
+# there is already a pre-edited version called reverse_upper.py
+
+# test the python is valid
+python lookup_plugins/reverse_upper.py
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-11-01/filter_plugins$ python
+Python 2.7.15+ (default, Oct  7 2019, 17:39:04) 
+[GCC 7.4.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from reverse_upper import reverse_upper
+>>> print(reverse_upper)
+<function reverse_upper at 0x7fa9a22fb1b8>
+>>> reverse_upper('quackers yo yo')
+'OY OY SREKCAUQ'
+>>> 
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-11-01$ a-p reverse_upper_filter_playbook.yml 
+ [WARNING]: Skipping plugin (/home/robq/mastering-ansible/ansible/playbooks/03-11-01/filter_plugins/core.py) as it seems to be invalid: cannot import name recursive_check_defined
+
+
+PLAY [all] **************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+fatal: [ubuntu2]: FAILED! => {"msg": "Attempting to decrypt but no vault secrets found"}
+ok: [centos2]
+
+TASK [Reverse and upper ansible_distribution] ***************************************************************************************************************************************************
+ok: [centos2] => {
+    "msg": "Reverse and upper of ansible_distribution: SOTNEC"
+}
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [robq-VirtualBox]
+
+TASK [Reverse and upper ansible_distribution] ***************************************************************************************************************************************************
+ok: [robq-VirtualBox] => {
+    "msg": "Reverse and upper of ansible_distribution: TNIM XUNIL"
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+robq-VirtualBox            : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/03-11-01$ 
+
