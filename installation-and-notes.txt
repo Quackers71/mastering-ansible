@@ -2448,7 +2448,7 @@ skipping: [centos2]
 PLAY RECAP **************************************************************************************************************************************************************************************
 centos2                    : ok=10   changed=0    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0
 
-# Summary of 'Static vs Dynamic in Tasks'
+# Summary of Section-04 - 'Static vs Dynamic in Tasks'
 
 - include_tasks = Dynamic
 - include = Static - by default, can be made Dynamic
@@ -2509,3 +2509,16 @@ index ef71b94..8bcb6dd 100644
       - debug:
           msg: ===================== Testing import_tasks ======================
 
+
+# Summary of Section-05 - 'Static vs Dynamic in Tasks'
+
+- include = Deprecated
+- include_* = Dynamic
+- import_* = Static
+- Dynamic - directives applied at execution, that is when applies in the same
+  way to every task at the point of the inclusion, changes to variables, do not
+  affect the inclusion state
+- Static - directives applied at execution, that is when are actioned sequentially
+  for each task
+
+  
