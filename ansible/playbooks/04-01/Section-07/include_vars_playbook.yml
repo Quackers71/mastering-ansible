@@ -14,7 +14,7 @@
 
      - include_tasks: include_tasks.yml
        vars:
-         custom_var: Passed from parent playbook
+         custom_var: Passed from parent playbook and working as designed
 
 # Three dots indicate the end of a YAML document
 ...
