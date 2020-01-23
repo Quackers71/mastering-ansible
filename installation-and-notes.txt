@@ -2521,4 +2521,44 @@ index ef71b94..8bcb6dd 100644
 - Static - directives applied at execution, that is when are actioned sequentially
   for each task
 
-  
+# Extra Summary
+
+- include_* = Dynamic - Can be used with loops
+- import_* = Static - Cannot be used with loops
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-01/Section-06$ a-p include_loop_playbook.yml 
+ERROR! You cannot use loops on 'import_tasks' statements. You should use 'include_tasks' instead.
+
+The error appears to be in '/home/robq/mastering-ansible/ansible/playbooks/04-01/Section-06/include_loop_playbook.yml': line 16, column 8, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+     #- include_tasks: include_tasks.yml
+     - import_tasks: include_tasks.yml
+       ^ here
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-01/Section-06$ gdf
+diff --git a/ansible/playbooks/04-01/Section-06/include_loop_playbook.yml b/ansible/playbooks/04-01/Section-06/include_loop_playbook.yml
+index e87bccb..41be7b9 100644
+--- a/ansible/playbooks/04-01/Section-06/include_loop_playbook.yml
++++ b/ansible/playbooks/04-01/Section-06/include_loop_playbook.yml
+@@ -6,13 +6,14 @@
+ -
+ 
+   # Target: where our play will run and options it will run with
+-  hosts: centos1
++  hosts: centos2
+ 
+   # Task: the list of tasks that will be executed within the play, this section
+   # can also be used for pre and post tasks
+   tasks:
+ 
+-     - include_tasks: include_tasks.yml
++     #- include_tasks: include_tasks.yml
++     - import_tasks: include_tasks.yml
+        with_items: [1, 2, 3]
+ 
+ # Three dots indicate the end of a YAML document
+
+ 
