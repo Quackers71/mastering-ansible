@@ -2459,3 +2459,53 @@ centos2                    : ok=10   changed=0    unreachable=0    failed=0    s
 - Static - directives applied at execution, that is when are actioned sequentially
   for each task
 
+
+# re-Output of Section-04 making static = false making it Dynamic
+
+included: /home/robq/mastering-ansible/ansible/playbooks/04-01/Section-04/include.yml for centos2
+
+TASK [set_fact] *********************************************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [2nd Task] *********************************************************************************************************************************************************************************
+ok: [centos2] => {
+    "msg": "2nd Task"
+}
+
+TASK [3rd Task] *********************************************************************************************************************************************************************************
+ok: [centos2] => {
+    "msg": "3rd Task"
+}
+
+TASK [debug] ************************************************************************************************************************************************************************************
+ok: [centos2] => {
+    "msg": "===================== Testing import_tasks ======================"
+}
+
+TASK [set_fact] *********************************************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [2nd Task] *********************************************************************************************************************************************************************************
+skipping: [centos2]
+
+TASK [3rd Task] *********************************************************************************************************************************************************************************
+skipping: [centos2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=13   changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-01/Section-04$ gdf
+diff --git a/ansible/playbooks/04-01/Section-04/include_import_playbook.yml b/ansible/playbooks/04-01/Section-04/include_import_playbook.yml
+index ef71b94..8bcb6dd 100644
+--- a/ansible/playbooks/04-01/Section-04/include_import_playbook.yml
++++ b/ansible/playbooks/04-01/Section-04/include_import_playbook.yml
+@@ -31,7 +31,7 @@
+      # the when condition
+      - include: include.yml
+        when: include_var is not defined
+-       #static: false
++       static: false
+ 
+      - debug:
+          msg: ===================== Testing import_tasks ======================
+

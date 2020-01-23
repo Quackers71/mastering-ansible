@@ -31,7 +31,7 @@
      # the when condition
      - include: include.yml
        when: include_var is not defined
-       #static: false
+       static: false
 
      - debug:
          msg: ===================== Testing import_tasks ======================
