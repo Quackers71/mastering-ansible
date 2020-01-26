@@ -2572,3 +2572,75 @@ index e87bccb..41be7b9 100644
 - Special tags
 - Tag inheritance
 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-02/01$ grep -A1 tags nginx_playbook.yml | grep ' - ' | uniq
+        - install-epel
+        - install-nginx
+        - patch-nginx
+        - nginx-template
+        - nginx-running
+        - nginx-open-firewall
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-02/01$ a-p nginx_playbook.yml --tags 'install-nginx,patch-nginx'
+
+PLAY [ubuntu,centos] ****************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Install Nginx] ****************************************************************************************************************************************************************************
+ [WARNING]: Could not find aptitude. Using apt-get instead
+
+ok: [ubuntu2]
+
+TASK [Install Patch] ****************************************************************************************************************************************************************************
+skipping: [ubuntu2]
+
+TASK [Patch nginx.conf to include sites-available, disable default server entry] ****************************************************************************************************************
+skipping: [ubuntu2]
+
+TASK [Create /etc/nginx/sites-available directory if required] **********************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Create /etc/nginx/sites-enabled directory if required] ************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Copy default nginx configuration] *********************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Symbolic link /etc/nginx/sites-available/default to /etc/nginx/sites-enabled/default] *****************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Create nginx/html directory if required] **************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Install Nginx] ****************************************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [Install Patch] ****************************************************************************************************************************************************************************
+changed: [centos2]
+
+TASK [Patch nginx.conf to include sites-available, disable default server entry] ****************************************************************************************************************
+ok: [centos2]
+
+TASK [Create /etc/nginx/sites-available directory if required] **********************************************************************************************************************************
+ok: [centos2]
+
+TASK [Create /etc/nginx/sites-enabled directory if required] ************************************************************************************************************************************
+ok: [centos2]
+
+TASK [Copy default nginx configuration] *********************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [Symbolic link /etc/nginx/sites-available/default to /etc/nginx/sites-enabled/default] *****************************************************************************************************
+ok: [centos2]
+
+TASK [Create nginx/html directory if required] **************************************************************************************************************************************************
+ok: [centos2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=9    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=7    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-02/01$ a-p nginx_playbook.yml --skip-tags 'patch-nginx'
+
