@@ -2644,3 +2644,15 @@ ubuntu2                    : ok=7    changed=0    unreachable=0    failed=0    s
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-02/01$ a-p nginx_playbook.yml --skip-tags 'patch-nginx'
 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-02/04$ for tag in include_tasks_deprecated include_tasks include_playbook import_playbook; do echo Testing ${tag}; ansible-playbook include_import_playbook.yml --tag ${tag}; done
+Testing include_tasks_deprecated
+ERROR! A malformed block was encountered while loading a block
+Testing include_tasks
+ERROR! A malformed block was encountered while loading a block
+Testing include_playbook
+ERROR! A malformed block was encountered while loading a block
+Testing import_playbook
+ERROR! A malformed block was encountered while loading a block
+
+# will come back to this piece of $h1te ;-)
+
