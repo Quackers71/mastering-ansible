@@ -112,7 +112,7 @@
   handlers:
     - name: Check HTTP Service
       uri:
-        url: http://{{ ansible_default_ipv4.address }}
+        url: http://{{ ansible_ssh_host }}
         status_code: 200
       tags:
         - check-http-service
