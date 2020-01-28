@@ -1031,9 +1031,11 @@ alias gpul="git pull"
 alias grh="git reset --hard $1"
 alias gl="git log"
 alias glg='git log --pretty=format:"%h %s" --graph'
+alias gc="git checkout $1"
 
 alias a-g="ansible-galaxy $1"
-alias a-p="ansible-playbook $1" < pls change this!!!
+alias a-p="ansible-playbook $1"
+alias a-v="ansible-vault $1"
 alias a="ansible"
 
 # More to follow.....
@@ -2675,3 +2677,61 @@ ERROR! A malformed block was encountered while loading a block
   simplified
 - Roles, can have dependencies on other roles, allowing automatic inclusion
 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/01$ tree
+.
+├── ansible.cfg
+├── files
+│   ├── nginx.conf.centos.patch
+│   └── nginx-default.conf
+├── group_vars
+│   ├── centos
+│   ├── dns
+│   └── ubuntu
+├── hosts.yml
+├── host_vars
+│   ├── centos1
+│   └── robq-VirtualBox
+├── nginx_playbook.yml
+└── templates
+    └── index.html.j2
+
+4 directories, 11 files
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/01$ a-p nginx_playbook.yml --skip-tags 'install-epel,install-nginx,patch-nginx'
+
+PLAY [ubuntu,centos] ****************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Template index.html.j2 to index.html on target] *******************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Restart nginx] ****************************************************************************************************************************************************************************
+changed: [ubuntu2]
+
+TASK [Open CentOS firewall for Nginx] ***********************************************************************************************************************************************************
+skipping: [ubuntu2]
+
+RUNNING HANDLER [Check HTTP Service] ************************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [Template index.html.j2 to index.html on target] *******************************************************************************************************************************************
+ok: [centos2]
+
+TASK [Restart nginx] ****************************************************************************************************************************************************************************
+changed: [centos2]
+
+TASK [Open CentOS firewall for Nginx] ***********************************************************************************************************************************************************
+ok: [centos2]
+
+RUNNING HANDLER [Check HTTP Service] ************************************************************************************************************************************************************
+ok: [centos2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=4    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/01$ 
