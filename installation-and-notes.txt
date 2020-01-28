@@ -2734,4 +2734,37 @@ PLAY RECAP *********************************************************************
 centos2                    : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ubuntu2                    : ok=4    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
 
-robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/01$ 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/01$ a-g init nginx
+- nginx was created successfully
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/01$ tree nginx
+nginx
+├── defaults
+│   └── main.yml
+├── files
+├── handlers
+│   └── main.yml
+├── meta
+│   └── main.yml
+├── README.md
+├── tasks
+│   └── main.yml
+├── templates
+├── tests
+│   ├── inventory
+│   └── test.yml
+└── vars
+    └── main.yml
+
+8 directories, 8 files
+
+-- Transition Strategy
+- Move the handlers of the playbook, into handlers/main.yml
+- Move the existing templates into templates and remove the old directory
+- Move the existing files into files and again, remove the old directory
+- We don't have specific vars in the playbook for this, but, we do currently have
+  the logos in the group vars files, move these into vars/main.yml
+- Move the playbook tasks, to tasks/main.yml
+- As we have moved the files into the roles, we no longer need to specify the
+  directory, so remove files and templates references accordingly
+- Finally, update our playbook so it just contains the role
+
