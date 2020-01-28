@@ -2768,3 +2768,77 @@ nginx
   directory, so remove files and templates references accordingly
 - Finally, update our playbook so it just contains the role
 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/02$ tree
+.
+├── ansible.cfg
+├── group_vars
+│   ├── centos
+│   ├── dns
+│   └── ubuntu
+├── hosts.yml
+├── host_vars
+│   ├── centos1
+│   └── robq-VirtualBox
+├── nginx
+│   ├── defaults
+│   │   └── main.yml
+│   ├── files
+│   │   ├── nginx.conf.centos.patch
+│   │   └── nginx-default.conf
+│   ├── handlers
+│   │   └── main.yml
+│   ├── meta
+│   │   └── main.yml
+│   ├── README.md
+│   ├── tasks
+│   │   └── main.yml
+│   ├── templates
+│   │   └── index.html.j2
+│   ├── tests
+│   │   ├── inventory
+│   │   └── test.yml
+│   └── vars
+│       └── main.yml
+└── nginx_playbook.yml
+
+11 directories, 19 files
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/02$ a-p nginx_playbook.yml --skip-tags 'install-epel,install-nginx,patch-nginx'
+
+PLAY [ubuntu,centos] ****************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [nginx : Template index.html.j2 to index.html on target] ***********************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [nginx : Restart nginx] ********************************************************************************************************************************************************************
+changed: [ubuntu2]
+
+TASK [nginx : Open CentOS firewall for Nginx] ***************************************************************************************************************************************************
+skipping: [ubuntu2]
+
+RUNNING HANDLER [nginx : Check HTTP Service] ****************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [nginx : Template index.html.j2 to index.html on target] ***********************************************************************************************************************************
+ok: [centos2]
+
+TASK [nginx : Restart nginx] ********************************************************************************************************************************************************************
+changed: [centos2]
+
+TASK [nginx : Open CentOS firewall for Nginx] ***************************************************************************************************************************************************
+ok: [centos2]
+
+RUNNING HANDLER [nginx : Check HTTP Service] ****************************************************************************************************************************************************
+ok: [centos2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=4    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/02$ 
