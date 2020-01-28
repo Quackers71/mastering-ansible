@@ -2656,3 +2656,22 @@ ERROR! A malformed block was encountered while loading a block
 
 # will come back to this piece of $h1te ;-)
 
+## Section 4 - 3. Using Roles
+
+- Using roles
+- The role structure
+- How to create roles with Ansible Galaxy
+- How to move an existing project to a role
+- How to set role dependencies
+
+-- Benefits of using Roles
+- Larger projects, are made easier to manage
+- Roles are grouped with logical structure, making them easier to share
+- Roles can be written to target specific requirements for example a webserver
+  role, a DNS server role, a patching role
+- Roles can be developed independently, in parrallel by different entities and
+  work well with version control systems
+- Template, vars and files, have designated directories and inclusion is
+  simplified
+- Roles, can have dependencies on other roles, allowing automatic inclusion
+
