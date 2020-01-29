@@ -2842,3 +2842,13 @@ centos2                    : ok=5    changed=1    unreachable=0    failed=0    s
 ubuntu2                    : ok=4    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/02$ 
+
+# In the last Playbook checkout 06/awesomeweb/meta/main.yml which has a dependency of
+
+dependencies:
+  - nginx
+
+# and in the nginx_awesomeweb_playbook.yml only one role i.e.
+roles:
+  - awesomeweb
+
