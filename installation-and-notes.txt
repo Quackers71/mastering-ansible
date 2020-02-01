@@ -2852,3 +2852,17 @@ dependencies:
 roles:
   - awesomeweb
 
+## Section 5 - Using Ansible with Cloud Services and Containers
+
+- AWS with Ansible
+- Docker support with Ansible
+
+# Section 5 - 4. AWS with Ansible
+
+- AWS with Ansible
+- How to configure Ansible for AWS support
+- Creating instances  through Ansible with AWS and adding IP Addresses
+- Using the AWS dynamic inventory
+- Spinning up our AwesomeWeb App, using AWS
+- Terminating and removing AWS instances
+
