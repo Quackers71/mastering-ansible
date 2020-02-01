@@ -1031,9 +1031,11 @@ alias gpul="git pull"
 alias grh="git reset --hard $1"
 alias gl="git log"
 alias glg='git log --pretty=format:"%h %s" --graph'
+alias gc="git checkout $1"
 
 alias a-g="ansible-galaxy $1"
-alias a-p="ansible-playbook $1" < pls change this!!!
+alias a-p="ansible-playbook $1"
+alias a-v="ansible-vault $1"
 alias a="ansible"
 
 # More to follow.....
@@ -2571,4 +2573,282 @@ index e87bccb..41be7b9 100644
 - Playbook tags
 - Special tags
 - Tag inheritance
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-02/01$ grep -A1 tags nginx_playbook.yml | grep ' - ' | uniq
+        - install-epel
+        - install-nginx
+        - patch-nginx
+        - nginx-template
+        - nginx-running
+        - nginx-open-firewall
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-02/01$ a-p nginx_playbook.yml --tags 'install-nginx,patch-nginx'
+
+PLAY [ubuntu,centos] ****************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+ok: [centos2]
+
+TASK [Install Nginx] ****************************************************************************************************************************************************************************
+ [WARNING]: Could not find aptitude. Using apt-get instead
+
+ok: [ubuntu2]
+
+TASK [Install Patch] ****************************************************************************************************************************************************************************
+skipping: [ubuntu2]
+
+TASK [Patch nginx.conf to include sites-available, disable default server entry] ****************************************************************************************************************
+skipping: [ubuntu2]
+
+TASK [Create /etc/nginx/sites-available directory if required] **********************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Create /etc/nginx/sites-enabled directory if required] ************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Copy default nginx configuration] *********************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Symbolic link /etc/nginx/sites-available/default to /etc/nginx/sites-enabled/default] *****************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Create nginx/html directory if required] **************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Install Nginx] ****************************************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [Install Patch] ****************************************************************************************************************************************************************************
+changed: [centos2]
+
+TASK [Patch nginx.conf to include sites-available, disable default server entry] ****************************************************************************************************************
+ok: [centos2]
+
+TASK [Create /etc/nginx/sites-available directory if required] **********************************************************************************************************************************
+ok: [centos2]
+
+TASK [Create /etc/nginx/sites-enabled directory if required] ************************************************************************************************************************************
+ok: [centos2]
+
+TASK [Copy default nginx configuration] *********************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [Symbolic link /etc/nginx/sites-available/default to /etc/nginx/sites-enabled/default] *****************************************************************************************************
+ok: [centos2]
+
+TASK [Create nginx/html directory if required] **************************************************************************************************************************************************
+ok: [centos2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=9    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=7    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-02/01$ a-p nginx_playbook.yml --skip-tags 'patch-nginx'
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-02/04$ for tag in include_tasks_deprecated include_tasks include_playbook import_playbook; do echo Testing ${tag}; ansible-playbook include_import_playbook.yml --tag ${tag}; done
+Testing include_tasks_deprecated
+ERROR! A malformed block was encountered while loading a block
+Testing include_tasks
+ERROR! A malformed block was encountered while loading a block
+Testing include_playbook
+ERROR! A malformed block was encountered while loading a block
+Testing import_playbook
+ERROR! A malformed block was encountered while loading a block
+
+# will come back to this piece of $h1te ;-)
+
+## Section 4 - 3. Using Roles
+
+- Using roles
+- The role structure
+- How to create roles with Ansible Galaxy
+- How to move an existing project to a role
+- How to set role dependencies
+
+-- Benefits of using Roles
+- Larger projects, are made easier to manage
+- Roles are grouped with logical structure, making them easier to share
+- Roles can be written to target specific requirements for example a webserver
+  role, a DNS server role, a patching role
+- Roles can be developed independently, in parrallel by different entities and
+  work well with version control systems
+- Template, vars and files, have designated directories and inclusion is
+  simplified
+- Roles, can have dependencies on other roles, allowing automatic inclusion
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/01$ tree
+.
+├── ansible.cfg
+├── files
+│   ├── nginx.conf.centos.patch
+│   └── nginx-default.conf
+├── group_vars
+│   ├── centos
+│   ├── dns
+│   └── ubuntu
+├── hosts.yml
+├── host_vars
+│   ├── centos1
+│   └── robq-VirtualBox
+├── nginx_playbook.yml
+└── templates
+    └── index.html.j2
+
+4 directories, 11 files
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/01$ a-p nginx_playbook.yml --skip-tags 'install-epel,install-nginx,patch-nginx'
+
+PLAY [ubuntu,centos] ****************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Template index.html.j2 to index.html on target] *******************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Restart nginx] ****************************************************************************************************************************************************************************
+changed: [ubuntu2]
+
+TASK [Open CentOS firewall for Nginx] ***********************************************************************************************************************************************************
+skipping: [ubuntu2]
+
+RUNNING HANDLER [Check HTTP Service] ************************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [Template index.html.j2 to index.html on target] *******************************************************************************************************************************************
+ok: [centos2]
+
+TASK [Restart nginx] ****************************************************************************************************************************************************************************
+changed: [centos2]
+
+TASK [Open CentOS firewall for Nginx] ***********************************************************************************************************************************************************
+ok: [centos2]
+
+RUNNING HANDLER [Check HTTP Service] ************************************************************************************************************************************************************
+ok: [centos2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=4    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/01$ a-g init nginx
+- nginx was created successfully
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/01$ tree nginx
+nginx
+├── defaults
+│   └── main.yml
+├── files
+├── handlers
+│   └── main.yml
+├── meta
+│   └── main.yml
+├── README.md
+├── tasks
+│   └── main.yml
+├── templates
+├── tests
+│   ├── inventory
+│   └── test.yml
+└── vars
+    └── main.yml
+
+8 directories, 8 files
+
+-- Transition Strategy
+- Move the handlers of the playbook, into handlers/main.yml
+- Move the existing templates into templates and remove the old directory
+- Move the existing files into files and again, remove the old directory
+- We don't have specific vars in the playbook for this, but, we do currently have
+  the logos in the group vars files, move these into vars/main.yml
+- Move the playbook tasks, to tasks/main.yml
+- As we have moved the files into the roles, we no longer need to specify the
+  directory, so remove files and templates references accordingly
+- Finally, update our playbook so it just contains the role
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/02$ tree
+.
+├── ansible.cfg
+├── group_vars
+│   ├── centos
+│   ├── dns
+│   └── ubuntu
+├── hosts.yml
+├── host_vars
+│   ├── centos1
+│   └── robq-VirtualBox
+├── nginx
+│   ├── defaults
+│   │   └── main.yml
+│   ├── files
+│   │   ├── nginx.conf.centos.patch
+│   │   └── nginx-default.conf
+│   ├── handlers
+│   │   └── main.yml
+│   ├── meta
+│   │   └── main.yml
+│   ├── README.md
+│   ├── tasks
+│   │   └── main.yml
+│   ├── templates
+│   │   └── index.html.j2
+│   ├── tests
+│   │   ├── inventory
+│   │   └── test.yml
+│   └── vars
+│       └── main.yml
+└── nginx_playbook.yml
+
+11 directories, 19 files
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/02$ a-p nginx_playbook.yml --skip-tags 'install-epel,install-nginx,patch-nginx'
+
+PLAY [ubuntu,centos] ****************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [nginx : Template index.html.j2 to index.html on target] ***********************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [nginx : Restart nginx] ********************************************************************************************************************************************************************
+changed: [ubuntu2]
+
+TASK [nginx : Open CentOS firewall for Nginx] ***************************************************************************************************************************************************
+skipping: [ubuntu2]
+
+RUNNING HANDLER [nginx : Check HTTP Service] ****************************************************************************************************************************************************
+ok: [ubuntu2]
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************
+ok: [centos2]
+
+TASK [nginx : Template index.html.j2 to index.html on target] ***********************************************************************************************************************************
+ok: [centos2]
+
+TASK [nginx : Restart nginx] ********************************************************************************************************************************************************************
+changed: [centos2]
+
+TASK [nginx : Open CentOS firewall for Nginx] ***************************************************************************************************************************************************
+ok: [centos2]
+
+RUNNING HANDLER [nginx : Check HTTP Service] ****************************************************************************************************************************************************
+ok: [centos2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+centos2                    : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=4    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/04-03/02$ 
+
+# In the last Playbook checkout 06/awesomeweb/meta/main.yml which has a dependency of
+
+dependencies:
+  - nginx
+
+# and in the nginx_awesomeweb_playbook.yml only one role i.e.
+roles:
+  - awesomeweb
 
