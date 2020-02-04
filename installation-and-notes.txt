@@ -2866,3 +2866,144 @@ roles:
 - Spinning up our AwesomeWeb App, using AWS
 - Terminating and removing AWS instances
 
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/01$ a-p ec2_playbook.yml 
+
+PLAY [localhost] ********************************************************************************************************************************************************************************
+
+TASK [Create a security group in AWS for SSH access and HTTP] ***********************************************************************************************************************************
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "Failed to import the required Python library (botocore or boto3) on robq-VirtualBox's Python /usr/bin/python2. Please read module documentation and install in the appropriate location"}
+
+PLAY RECAP **************************************************************************************************************************************************************************************
+localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/01$ 
+
+# Install boto & boto3 libraries
+sudo apt update
+sudo apt install python-pip
+# This didn't work so found a workaround :-(
+
+# Set the AWS Creds using
+export AWS_ACCESS_KEY_ID='blablablablabla'
+export AWS_SECRET_ACCESS_KEY='blablablablablablablablablablabla'
+
+# For Revision 04 run
+export EC2_INI_PATH=inventory/ec2.ini
+
+sudo chmod u+x inventory/ec2.py
+inventory/ec2.py --list | more
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/03$ a-p ec2_playbook.yml 
+
+PLAY [localhost] ********************************************************************************************************************************************************************************
+
+TASK [Create a security group in AWS for SSH access and HTTP] ***********************************************************************************************************************************
+ok: [localhost]
+
+TASK [Provision a set of instances] *************************************************************************************************************************************************************
+changed: [localhost]
+ERROR! The 'add_host' module bypasses the host loop, which is currently not supported in the free strategy and would instead execute for every host in the inventory list.
+
+The error appears to be in '/home/robq/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/03/ec2_playbook.yml': line 47, column 7, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+    - name: Add all instance public IPs to host group
+      ^ here
+
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/04$ inventory/ec2.py --list | more
+{
+  "_meta": {
+    "hostvars": {
+      "18.130.41.130": {
+        "ansible_host": "18.130.41.130", 
+        "ec2__in_monitoring_element": false, 
+        "ec2_account_id": "591410292183", 
+        "ec2_ami_launch_index": "0", 
+        "ec2_architecture": "x86_64", 
+        "ec2_block_devices": {
+          "sda1": "vol-0ccc66efc5a88829c"
+        }, 
+        "ec2_client_token": "", 
+        "ec2_dns_name": "ec2-18-130-41-130.eu-west-2.compute.amazonaws.com", 
+        "ec2_ebs_optimized": false, 
+        "ec2_eventsSet": "", 
+        "ec2_group_name": "", 
+        "ec2_hypervisor": "xen", 
+        "ec2_id": "i-0d79da99c2914ed0e", 
+        "ec2_image_id": "ami-0a0cb6c7bcb2e4c51", 
+        "ec2_instance_profile": "", 
+        "ec2_instance_type": "t2.micro", 
+        "ec2_ip_address": "18.130.41.130", 
+        "ec2_item": "", 
+        "ec2_kernel": "", 
+        "ec2_key_name": "my_ansible_aws_keypair", 
+        "ec2_launch_time": "2020-02-04T22:36:38.000Z", 
+        "ec2_monitored": false, 
+        "ec2_monitoring": "", 
+        "ec2_monitoring_state": "disabled", 
+        "ec2_persistent": false, 
+        "ec2_placement": "eu-west-2a", 
+        "ec2_platform": "", 
+        "ec2_previous_state": "", 
+        "ec2_previous_state_code": 0, 
+        "ec2_private_dns_name": "ip-172-31-20-81.eu-west-2.compute.internal", 
+        "ec2_private_ip_address": "172.31.20.81", 
+        "ec2_public_dns_name": "ec2-18-130-41-130.eu-west-2.compute.amazonaws.com", 
+        "ec2_ramdisk": "", 
+        "ec2_reason": "", 
+        "ec2_region": "eu-west-2", 
+        "ec2_requester_id": "", 
+        "ec2_root_device_name": "/dev/sda1", 
+        "ec2_root_device_type": "ebs", 
+        "ec2_security_group_ids": "sg-0f8ff7dd47079e933", 
+        "ec2_security_group_names": "ansible", 
+        "ec2_sourceDestCheck": "true", 
+        "ec2_spot_instance_request_id": "", 
+        "ec2_state": "running", 
+        "ec2_state_code": 16, 
+        "ec2_state_reason": "", 
+        "ec2_subnet_id": "subnet-918d01eb", 
+        "ec2_tag_Name": "Ansible", 
+        "ec2_virtualization_type": "hvm", 
+        "ec2_vpc_id": "vpc-107a0478"
+      }
+    }
+  }, 
+  "ami_0a0cb6c7bcb2e4c51": [
+    "18.130.41.130"
+  ], 
+  "ec2": [
+    "18.130.41.130"
+  ], 
+  "eu-west-2": [
+    "18.130.41.130"
+  ], 
+  "eu-west-2a": [
+    "18.130.41.130"
+  ], 
+  "i-0d79da99c2914ed0e": [
+    "18.130.41.130"
+  ], 
+  "key_my_ansible_aws_keypair": [
+    "18.130.41.130"
+  ], 
+  "platform_undefined": [
+    "18.130.41.130"
+  ], 
+  "security_group_ansible": [
+    "18.130.41.130"
+  ], 
+  "tag_Name_Ansible": [
+    "18.130.41.130"
+  ], 
+  "type_t2_micro": [
+    "18.130.41.130"
+  ], 
+  "vpc_id_vpc_107a0478": [
+    "18.130.41.130"
+  ]
+}
+robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/04$ 
