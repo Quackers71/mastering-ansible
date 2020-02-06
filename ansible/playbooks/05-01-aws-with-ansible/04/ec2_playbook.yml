@@ -37,7 +37,7 @@
          image: ami-0a0cb6c7bcb2e4c51
          region: eu-west-2
          wait: true
-         exact_count: 20
+         exact_count: 1
          count_tag:
             Name: AnsibleNginxWebservers
          instance_tags:
