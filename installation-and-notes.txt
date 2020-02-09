@@ -2883,6 +2883,37 @@ sudo apt update
 sudo apt install python-pip
 # This didn't work so found a workaround :-(
 
+robq@robq-Aspire-4741:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/02$ pip install boto boto3
+Collecting boto
+  Downloading https://files.pythonhosted.org/packages/23/10/c0b78c27298029e4454a472a1919bde20cb182dab1662cec7f2ca1dcc523/boto-2.49.0-py2.py3-none-any.whl (1.4MB)
+    100% |████████████████████████████████| 1.4MB 565kB/s 
+Collecting boto3
+  Downloading https://files.pythonhosted.org/packages/bc/ef/10bfa08a204a59ccef56a922b19c1648ce9cb61b6d127c607314a12d498d/boto3-1.11.13-py2.py3-none-any.whl (128kB)
+    100% |████████████████████████████████| 133kB 2.5MB/s 
+Collecting jmespath<1.0.0,>=0.7.1 (from boto3)
+  Downloading https://files.pythonhosted.org/packages/83/94/7179c3832a6d45b266ddb2aac329e101367fbdb11f425f13771d27f225bb/jmespath-0.9.4-py2.py3-none-any.whl
+Collecting s3transfer<0.4.0,>=0.3.0 (from boto3)
+  Downloading https://files.pythonhosted.org/packages/69/79/e6afb3d8b0b4e96cefbdc690f741d7dd24547ff1f94240c997a26fa908d3/s3transfer-0.3.3-py2.py3-none-any.whl (69kB)
+    100% |████████████████████████████████| 71kB 3.5MB/s 
+Collecting botocore<1.15.0,>=1.14.13 (from boto3)
+  Downloading https://files.pythonhosted.org/packages/83/ef/1860283d82ab7eaa85a911fc038ab3a9646efa0b1393a9b8a2f8c0905f96/botocore-1.14.13-py2.py3-none-any.whl (5.9MB)
+    100% |████████████████████████████████| 5.9MB 151kB/s 
+Collecting futures<4.0.0,>=2.2.0; python_version == "2.7" (from s3transfer<0.4.0,>=0.3.0->boto3)
+  Downloading https://files.pythonhosted.org/packages/d8/a6/f46ae3f1da0cd4361c344888f59ec2f5785e69c872e175a748ef6071cdb5/futures-3.3.0-py2-none-any.whl
+Collecting python-dateutil<3.0.0,>=2.1 (from botocore<1.15.0,>=1.14.13->boto3)
+  Downloading https://files.pythonhosted.org/packages/d4/70/d60450c3dd48ef87586924207ae8907090de0b306af2bce5d134d78615cb/python_dateutil-2.8.1-py2.py3-none-any.whl (227kB)
+    100% |████████████████████████████████| 235kB 1.6MB/s 
+Collecting urllib3<1.26,>=1.20; python_version != "3.4" (from botocore<1.15.0,>=1.14.13->boto3)
+  Downloading https://files.pythonhosted.org/packages/e8/74/6e4f91745020f967d09332bb2b8b9b10090957334692eb88ea4afe91b77f/urllib3-1.25.8-py2.py3-none-any.whl (125kB)
+    100% |████████████████████████████████| 133kB 3.7MB/s 
+Collecting docutils<0.16,>=0.10 (from botocore<1.15.0,>=1.14.13->boto3)
+  Downloading https://files.pythonhosted.org/packages/3a/dc/bf2b15d1fa15a6f7a9e77a61b74ecbbae7258558fcda8ffc9a6638a6b327/docutils-0.15.2-py2-none-any.whl (548kB)
+    100% |████████████████████████████████| 552kB 1.2MB/s 
+Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore<1.15.0,>=1.14.13->boto3)
+  Downloading https://files.pythonhosted.org/packages/65/eb/1f97cb97bfc2390a276969c6fae16075da282f5058082d4cb10c6c5c1dba/six-1.14.0-py2.py3-none-any.whl
+Installing collected packages: boto, jmespath, futures, six, python-dateutil, urllib3, docutils, botocore, s3transfer, boto3
+Successfully installed boto-2.49.0 boto3-1.11.13 botocore-1.14.13 docutils-0.15.2 futures-3.3.0 jmespath-0.9.4 python-dateutil-2.8.1 s3transfer-0.3.3 six-1.14.0 urllib3-1.25.8
+
 # Set the AWS Creds using
 export AWS_ACCESS_KEY_ID='blablablablabla'
 export AWS_SECRET_ACCESS_KEY='blablablablablablablablablablabla'
@@ -2913,34 +2944,34 @@ The offending line appears to be:
     - name: Add all instance public IPs to host group
       ^ here
 
-robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/04$ inventory/ec2.py --list | more
+robq@robq-Aspire-4741:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/04$ inventory/ec2.py --list
 {
   "_meta": {
     "hostvars": {
-      "18.130.41.130": {
-        "ansible_host": "18.130.41.130", 
+      "18.130.243.77": {
+        "ansible_host": "18.130.243.77", 
         "ec2__in_monitoring_element": false, 
         "ec2_account_id": "591410292183", 
         "ec2_ami_launch_index": "0", 
         "ec2_architecture": "x86_64", 
         "ec2_block_devices": {
-          "sda1": "vol-0ccc66efc5a88829c"
+          "sda1": "vol-0f6a8c6f786771a53"
         }, 
         "ec2_client_token": "", 
-        "ec2_dns_name": "ec2-18-130-41-130.eu-west-2.compute.amazonaws.com", 
+        "ec2_dns_name": "ec2-18-130-243-77.eu-west-2.compute.amazonaws.com", 
         "ec2_ebs_optimized": false, 
         "ec2_eventsSet": "", 
         "ec2_group_name": "", 
         "ec2_hypervisor": "xen", 
-        "ec2_id": "i-0d79da99c2914ed0e", 
+        "ec2_id": "i-0e10ade12c86cc55e", 
         "ec2_image_id": "ami-0a0cb6c7bcb2e4c51", 
         "ec2_instance_profile": "", 
         "ec2_instance_type": "t2.micro", 
-        "ec2_ip_address": "18.130.41.130", 
+        "ec2_ip_address": "18.130.243.77", 
         "ec2_item": "", 
         "ec2_kernel": "", 
-        "ec2_key_name": "my_ansible_aws_keypair", 
-        "ec2_launch_time": "2020-02-04T22:36:38.000Z", 
+        "ec2_key_name": "ansible_aws2", 
+        "ec2_launch_time": "2020-02-09T21:47:33.000Z", 
         "ec2_monitored": false, 
         "ec2_monitoring": "", 
         "ec2_monitoring_state": "disabled", 
@@ -2949,9 +2980,9 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansibl
         "ec2_platform": "", 
         "ec2_previous_state": "", 
         "ec2_previous_state_code": 0, 
-        "ec2_private_dns_name": "ip-172-31-20-81.eu-west-2.compute.internal", 
-        "ec2_private_ip_address": "172.31.20.81", 
-        "ec2_public_dns_name": "ec2-18-130-41-130.eu-west-2.compute.amazonaws.com", 
+        "ec2_private_dns_name": "ip-172-31-17-154.eu-west-2.compute.internal", 
+        "ec2_private_ip_address": "172.31.17.154", 
+        "ec2_public_dns_name": "ec2-18-130-243-77.eu-west-2.compute.amazonaws.com", 
         "ec2_ramdisk": "", 
         "ec2_reason": "", 
         "ec2_region": "eu-west-2", 
@@ -2973,37 +3004,60 @@ robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansibl
     }
   }, 
   "ami_0a0cb6c7bcb2e4c51": [
-    "18.130.41.130"
+    "18.130.243.77"
   ], 
   "ec2": [
-    "18.130.41.130"
+    "18.130.243.77"
   ], 
   "eu-west-2": [
-    "18.130.41.130"
+    "18.130.243.77"
   ], 
   "eu-west-2a": [
-    "18.130.41.130"
+    "18.130.243.77"
   ], 
-  "i-0d79da99c2914ed0e": [
-    "18.130.41.130"
+  "i-0e10ade12c86cc55e": [
+    "18.130.243.77"
   ], 
-  "key_my_ansible_aws_keypair": [
-    "18.130.41.130"
+  "key_ansible_aws2": [
+    "18.130.243.77"
   ], 
   "platform_undefined": [
-    "18.130.41.130"
+    "18.130.243.77"
   ], 
   "security_group_ansible": [
-    "18.130.41.130"
+    "18.130.243.77"
   ], 
   "tag_Name_Ansible": [
-    "18.130.41.130"
+    "18.130.243.77"
   ], 
   "type_t2_micro": [
-    "18.130.41.130"
+    "18.130.243.77"
   ], 
   "vpc_id_vpc_107a0478": [
-    "18.130.41.130"
+    "18.130.243.77"
   ]
 }
-robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/04$ 
+robq@robq-Aspire-4741:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/04$ a tag_Name_Ansible -m ping -vv
+ansible 2.5.1
+  config file = /home/robq/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/04/ansible.cfg
+  configured module search path = [u'/home/robq/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/dist-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 2.7.17 (default, Nov  7 2019, 10:07:09) [GCC 7.4.0]
+Using /home/robq/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/04/ansible.cfg as config file
+ [ERROR]:
+
+/usr/lib/python2.7/dist-packages/requests/__init__.py:80: RequestsDependencyWarning: urllib3 (1.25.8) or chardet (3.0.4) doesn't match a supported version!
+  RequestsDependencyWarning)
+/usr/lib/python2.7/dist-packages/requests/__init__.py:80: RequestsDependencyWarning: urllib3 (1.25.8) or chardet (3.0.4) doesn't match a supported version!
+  RequestsDependencyWarning)
+/usr/lib/python2.7/dist-packages/requests/__init__.py:80: RequestsDependencyWarning: urllib3 (1.25.8) or chardet (3.0.4) doesn't match a supported version!
+  RequestsDependencyWarning)
+META: ran handlers
+18.130.243.77 | UNREACHABLE! => {
+    "changed": false, 
+    "msg": "Failed to connect to the host via ssh: robq@18.130.243.77: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).\r\n", 
+    "unreachable": true
+}
+robq@robq-Aspire-4741:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/04$ 
+
