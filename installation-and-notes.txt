@@ -3059,5 +3059,53 @@ META: ran handlers
     "msg": "Failed to connect to the host via ssh: robq@18.130.243.77: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).\r\n", 
     "unreachable": true
 }
-robq@robq-Aspire-4741:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/04$ 
+
+
+ robq@robq-Aspire-4741:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/05$ a-p ec2_playbook.yml 
+ [WARNING]:  * Failed to parse /home/robq/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/05/inventory/ec2.py with script plugin: problem running /home/robq
+/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/05/inventory/ec2.py --list ([Errno 13] Permission denied)
+
+ [WARNING]:  * Failed to parse /home/robq/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/05/inventory/ec2.py with ini plugin: /home/robq/mastering-
+ansible/ansible/playbooks/05-01-aws-with-ansible/05/inventory/ec2.py:3: Error parsing host definition ''''': No closing quotation
+
+ [WARNING]: Unable to parse /home/robq/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/05/inventory/ec2.py as an inventory source
+
+ [WARNING]: No inventory was parsed, only implicit localhost is available
+
+ [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+/usr/lib/python2.7/dist-packages/requests/__init__.py:80: RequestsDependencyWarning: urllib3 (1.25.8) or chardet (3.0.4) doesn't match a supported version!
+  RequestsDependencyWarning)
+/usr/lib/python2.7/dist-packages/requests/__init__.py:80: RequestsDependencyWarning: urllib3 (1.25.8) or chardet (3.0.4) doesn't match a supported version!
+  RequestsDependencyWarning)
+/usr/lib/python2.7/dist-packages/requests/__init__.py:80: RequestsDependencyWarning: urllib3 (1.25.8) or chardet (3.0.4) doesn't match a supported version!
+  RequestsDependencyWarning)
+
+PLAY [localhost] ********************************************************************************************************************************************************
+
+TASK [Create a security group in AWS for SSH access and HTTP] ***********************************************************************************************************
+ok: [localhost]
+
+TASK [Provision a set of instances] *************************************************************************************************************************************
+changed: [localhost]
+ [WARNING]: Could not match supplied host pattern, ignoring: tag_Name_Ansible
+
+
+PLAY [tag_Name_Ansible] *************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [tag_Name_Ansible] *************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY RECAP **************************************************************************************************************************************************************
+localhost                  : ok=2    changed=1    unreachable=0    failed=0   
+
+robq@robq-Aspire-4741:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/05$ 
+
+robq@robq-Aspire-4741:~/mastering-ansible/ansible/playbooks/05-01-aws-with-ansible/05$ ssh ec2-user@ec2-18-0-0-0.eu-west-2.compute.amazonaws.com -i ~/.ssh/ansible_aws2.pem 
+The authenticity of host 'ec2-18-0-0-0.eu-west-2.compute.amazonaws.com (18-0-0-0)' can't be established.
+ECDSA key fingerprint is SHA256:blablablablabla.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ec2-18-0-0-0.eu-west-2.compute.amazonaws.com,18-0-0-0' (ECDSA) to the list of known hosts.
+[ec2-user@ip-172-31-24-75 ~]$ 
 
