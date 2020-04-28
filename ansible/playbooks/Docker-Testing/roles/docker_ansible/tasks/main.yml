@@ -3,6 +3,9 @@
     name: python-pip
     state: present
 
+- name: Install pip dependencies
+  include: install-pip-dependencies.yml
+
 - name: install docker with install-docker.yml
   include: install-docker.yml
 
