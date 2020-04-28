@@ -1,0 +1,27 @@
+---
+# YAML documents begin with the document separator ---
+ 
+# The minus in YAML this indicates a list item.  The playbook contains a list
+# of plays, with each play being a dictionary
+ 
+  # Target: where our play will run and options it will run with
+- name: Gathers facts on Centos3
+  hosts: centos3
+  tasks:
+  - setup:
+      gather_subset: 
+        - "all"
+  tags:
+    - docker_ansible
+  
+- name: Runs Docker Installation
+  hosts: centos3
+  become: yes
+  roles:
+    - role: docker_ansible
+  tags: 
+    - docker_ansible
+  
+ 
+# Three dots indicate the end of a YAML document
+...

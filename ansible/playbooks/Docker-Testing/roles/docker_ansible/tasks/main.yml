@@ -1,0 +1,16 @@
+- name: Install pip
+  yum:
+    name: python-pip
+    state: present
+
+- name: install docker with install-docker.yml
+  include: install-docker.yml
+
+- name: install docker-compose with install-dockercompose.yml
+  include: install-dockercompose.yml
+
+- name: create docker directory
+  file:
+    path: /docker
+    state: directory
+    mode: '0744'
