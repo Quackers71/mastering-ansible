@@ -60,11 +60,25 @@ Warning: Permanently added '[0]:2222,[0.0.0.0]:2222' (ECDSA) to the list of know
 root@0's password: 
 Last login: Sun Jul 14 21:17:31 2019
 
+
 ## Ansible Inventories
 
 https://docs.ansible.com/ansible/2.3/intro_inventory.html
 
 https://docs.ansible.com/ansible/latest/user_guide/vault.html
+
+added:
+
+packt    ALL=(ALL)    NOPASSWD: ALL
+
+to the /etc/sudoers
+
+# re-configured hosts.json file
+$ ansible all -i ../../hosts.json -m ping
+
+# also cleaned up hosts.yml 
+
+$ ansible all -m ping -e "ansible_port=22"
 
 
 ## Ansible Modules
