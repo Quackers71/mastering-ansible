@@ -1,5 +1,105 @@
 # Every YAML file should start with three dashes
 ---
+no_quotes: this is a string example\n
+double_quotes: "this is a string example\n"
+single_quotes: 'this is a string example\n'
+
+example_key_1: this is a string
+example_key_2: this is another string
+
+example_key_3: |
+ this is a string
+ that goes over
+ multiple lines
+
+example_key_4: >
+ this is a string
+ that goes over
+ multiple lines
+
+example_key_5: >-
+ this is a string
+ that goes over
+ multiple lines
+
+example_integer_1: 1
+
+example_integer_2: "1"
+
+# false, False, FALSE, no, No, NO, off, Off, OFF
+# true, True, TRUE, yes, Yes, YES, on, On, ON
+
+# N.B. n does not equal false, y does not equal true
+
+is_false_01: false
+is_false_02: False
+is_false_03: FALSE
+is_false_04: no
+is_false_05: No
+is_false_06: NO
+is_false_07: off
+is_false_08: Off
+is_false_09: OFF
+is_false_10: n
+is_true_01: true
+is_true_02: True
+is_true_03: TRUE
+is_true_04: yes
+is_true_05: Yes
+is_true_06: YES
+is_true_07: on
+is_true_08: On
+is_true_09: ON
+is_true_10: y
+
+  - item 1
+  - item 2
+  - item 3
+  - item 4
+  - item 5
+
+example_key_6: example_value_6
+example_key_7: example_value_7
+
+# representation of a dict in yml using inline block format.
+# {example_key_8: 'example_value_8', example_key_9: example_value_9}
+# see test2.yml
+
+# dict as a key whereby the value is a list
+example_key_10:
+  - list item 1
+  - list item 2
+
+example_key_11:
+  - list item 3
+  - list item 4
+
+# a list of dict's.
+  - example_12:
+    - item_1
+    - item_2
+    - item_3
+
+  - example_13:
+    - item_4
+    - item_5
+    - item_6
+
+# dict consisting of list of dict's and these consisting of a list of items.
+example_dictionary_1:
+  - example_dictionary_2:
+    - 1
+    - 2
+    - 3
+  - example_dictionary_2:
+    - 4
+    - 5
+    - 6
+  - example_dictionary_4:
+    - 7
+    - 8
+    - 9
+
 
 
 # Every YAML file should end with three dots

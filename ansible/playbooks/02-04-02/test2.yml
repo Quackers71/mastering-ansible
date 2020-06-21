@@ -1,0 +1,6 @@
+---
+# representation of a dict in yml using inline block format.
+# {example_key_8: 'example_value_8', example_key_9: example_value_9}
+
+# representation of a list in yml using inline block format.
+[example_list_entry_1, example_list_entry_2]
