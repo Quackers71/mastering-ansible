@@ -392,6 +392,9 @@ robq@robq-VirtualBox:~/Mastering-Ansible/02 - Ansible Architecture and Design/03
 
 ## Ansible Playbooks, Breakdown on Sections
 # Re-watched this section on 04/11/2019 :-)
+# Re-watching again on 22/06/2020 ;-)
+
+# See https://docs.ansible.com/ansible/devel/reference_appendices/playbooks_keywords.html
 
 # Frickme!   ???
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-04-02$ time ansible-playbook motd_playbook.yml -K
