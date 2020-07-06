@@ -832,6 +832,23 @@ https://stackoverflow.com/questions/17413526/nginx-missing-sites-available-direc
 
 ansible all -i packt@192.168.0.47,packt@192.168.0.43, -m setup -a 'filter=ansible_distribution'
 
+robq@robq-VirtualBox:~/repos/mastering-ansible/ansible/playbooks/02-04-02$ ansible all -i packt@192.168.0.42,packt@192.168.0.47, -m setup | grep ansible_distribution
+        "ansible_distribution": "Ubuntu", 
+        "ansible_distribution_file_parsed": true, 
+        "ansible_distribution_file_path": "/etc/os-release", 
+        "ansible_distribution_file_variety": "Debian", 
+        "ansible_distribution_major_version": "16", 
+        "ansible_distribution_release": "xenial", 
+        "ansible_distribution_version": "16.04", 
+        "ansible_distribution": "CentOS", 
+        "ansible_distribution_file_parsed": true, 
+        "ansible_distribution_file_path": "/etc/redhat-release", 
+        "ansible_distribution_file_variety": "RedHat", 
+        "ansible_distribution_major_version": "7", 
+        "ansible_distribution_release": "Core", 
+        "ansible_distribution_version": "7.8", 
+
+
 # nginx_playbook3.yml output
 
 robq@robq-VirtualBox:~/mastering-ansible/ansible/playbooks/02-08-01$ ansible-playbook nginx_playbook3.yml 
