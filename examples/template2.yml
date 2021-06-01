@@ -1,0 +1,19 @@
+---
+# ansible-playbook template2.yml - templating multiple files
+
+- name: run tasks on all hosts
+  hosts: "*"
+  vars:
+    env: staging
+    my_app_version: v1.1
+  tasks:
+    - name: template file onto dest host
+      template:
+        src: "{{ item }}.j2"
+        dest: "/u01/data/{{ item }}"
+        owner: svc_account
+        group: local
+        mode: 0711
+      loop:
+        - rsyncscript.sh
+        - rsyncscript-test.sh

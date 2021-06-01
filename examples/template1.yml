@@ -1,0 +1,16 @@
+---
+# ansible-playbook template1.yml
+
+- name: run tasks on all hosts
+  hosts: "*"
+  vars:
+    env: staging
+  tasks:
+    - name: template file onto dest host
+      template:
+        src: rsyncscript.sh.j2
+        dest: /u01/data/rsynscript.sh
+        owner: svc_account
+        group: local
+        mode: 0711
+
